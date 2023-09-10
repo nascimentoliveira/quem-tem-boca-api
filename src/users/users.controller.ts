@@ -8,6 +8,7 @@ import { UserResponseDTO } from './dto/response-user.dto';
 import { UnauthorizedResponseDTO } from '../dto/responses/unauthorized.dto';
 import { UserUnprocessableEntityResponseDTO } from './dto/unprocessable-user.dto';
 import { ForbiddenResponseDTO } from '../dto/responses/forbidden.dto';
+import { AuthGuard } from '../guards/auth.guard';
 import {
   Controller,
   Get,
@@ -16,6 +17,7 @@ import {
   Param,
   Delete,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -57,6 +59,7 @@ export class UsersController {
     return this.usersService.create(plainToClass(CreateUserDto, newUserData));
   }
 
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get all users.' })
   @ApiOkResponse({
@@ -80,6 +83,7 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get a specific user.' })
   @ApiOkResponse({
@@ -103,6 +107,7 @@ export class UsersController {
     return this.usersService.findOne(+id);
   }
 
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Edit an existing user.' })
   @ApiOkResponse({
@@ -129,6 +134,7 @@ export class UsersController {
     );
   }
 
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete an existing user' })
   @ApiOkResponse({

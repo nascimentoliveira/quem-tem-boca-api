@@ -11,7 +11,6 @@ import { UsersService } from '../users/users.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { EncryptionService } from '../encryption/encryption.service';
 import { AUTH_CONFIG } from './auth.config';
-import * as jwt from 'jsonwebtoken';
 
 /**
  * Authentication Service
@@ -57,17 +56,7 @@ export class AuthService {
    * @throws {InternalServerErrorException} - Throws an InternalServerErrorException if the error is not recognized.
    */
   private throwException(error: HttpException): void {
-    const knownExceptions = [
-      UnauthorizedException,
-      ForbiddenException,
-      jwt.JsonWebTokenError,
-    ] as const;
-
-    if (error instanceof jwt.JsonWebTokenError) {
-      throw new ForbiddenException(
-        'Invalid or expired token. Please log into your account again!',
-      );
-    }
+    const knownExceptions = [UnauthorizedException] as const;
 
     if (knownExceptions.some((exception) => error instanceof exception)) {
       throw error;
@@ -159,7 +148,7 @@ export class AuthService {
       });
       return JSON.parse(data.sub);
     } catch (error) {
-      this.throwException(error);
+      throw new ForbiddenException();
     }
   }
 
