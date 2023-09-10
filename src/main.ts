@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { loadEnv } from './config/envs.config.';
+import { loadEnv } from './config/envs.config';
 
 async function bootstrap() {
   loadEnv();
