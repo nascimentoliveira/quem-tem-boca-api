@@ -2,9 +2,9 @@
   "name": "quem-tem-boca-api",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Thiago Oliveira",
+  "license": "MPL-2.0",
   "private": true,
-  "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
