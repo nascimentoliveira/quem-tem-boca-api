@@ -7,6 +7,8 @@ import {
   ValidationError,
   ValidationPipe,
 } from '@nestjs/common';
+import { SwaggerModule } from '@nestjs/swagger';
+import { swaggerConfig } from './config/swagger.config';
 
 async function bootstrap() {
   loadEnv();
@@ -30,6 +32,9 @@ async function bootstrap() {
       exceptionFactory: validationExceptionFactory,
     }),
   );
+
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('api/documentation', app, document);
 
   const port = process.env.PORT || 3000;
   await app.listen(port);
