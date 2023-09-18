@@ -9,10 +9,12 @@ import {
 } from '@nestjs/common';
 import { SwaggerModule } from '@nestjs/swagger';
 import { swaggerConfig } from './config/swagger.config';
+import * as cors from 'cors';
 
 async function bootstrap() {
   loadEnv();
   const app = await NestFactory.create(AppModule);
+  app.use(cors());
   const validationExceptionFactory = (errors: ValidationError[]) => {
     const errorMessages = errors.flatMap((error) =>
       Object.values(error.constraints),
