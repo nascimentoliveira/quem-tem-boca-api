@@ -24,7 +24,8 @@ export class InternalServerErrorDTO {
   @ApiProperty({
     type: String,
     example:
-      'An internal server error has occurred. Please check the parameters or try again later.',
+      'Ocorreu um erro interno do servidor. ' +
+      'Por favor, verifique os parâmetros ou tente novamente mais tarde.',
     description: 'An error message describing the internal server error.',
   })
   readonly message: string;

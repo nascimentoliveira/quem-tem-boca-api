@@ -23,7 +23,7 @@ export class NotFoundResponseDTO {
    */
   @ApiProperty({
     type: String,
-    example: 'Resource not found!',
+    example: 'Recurso não encontrado!',
     description: 'An error message indicating that the resource was not found.',
   })
   readonly message: string;

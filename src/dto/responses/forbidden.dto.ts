@@ -23,7 +23,8 @@ export class ForbiddenResponseDTO {
    */
   @ApiProperty({
     type: String,
-    example: 'Invalid or expired token. Please log into your account again!',
+    example:
+      'Acesso negado a este recurso. Campo "Authorization" não encontrado no cabeçalho.',
     description:
       'An error message indicating the reason for the forbidden access.',
   })

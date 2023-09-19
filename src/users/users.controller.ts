@@ -1,6 +1,6 @@
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDTO } from './dto/create-user.dto';
+import { UpdateUserDTO } from './dto/update-user.dto';
 import { plainToClass } from 'class-transformer';
 import { UserConflitResponseDTO } from '../dto/responses/conflit-user.dto';
 import { InternalServerErrorDTO } from '../dto/responses/internal-server-error.dto';
@@ -8,6 +8,7 @@ import { UserResponseDTO } from './dto/response-user.dto';
 import { UnauthorizedResponseDTO } from '../dto/responses/unauthorized.dto';
 import { UserUnprocessableEntityResponseDTO } from './dto/unprocessable-user.dto';
 import { ForbiddenResponseDTO } from '../dto/responses/forbidden.dto';
+import { NotFoundResponseDTO } from 'src/dto/responses/notFound.dto';
 import { AuthGuard } from '../guards/auth.guard';
 import {
   Controller,
@@ -21,10 +22,12 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -38,6 +41,10 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @ApiOperation({ summary: 'Register a new user.' })
+  @ApiBody({
+    type: CreateUserDTO,
+    description: 'Data required to create a new user account.',
+  })
   @ApiCreatedResponse({
     description: 'User successfully registered.',
     type: UserResponseDTO,
@@ -55,8 +62,8 @@ export class UsersController {
     type: InternalServerErrorDTO,
   })
   @Post()
-  create(@Body() newUserData: CreateUserDto) {
-    return this.usersService.create(plainToClass(CreateUserDto, newUserData));
+  create(@Body() newUserData: CreateUserDTO) {
+    return this.usersService.create(plainToClass(CreateUserDTO, newUserData));
   }
 
   @UseGuards(AuthGuard)
@@ -70,8 +77,8 @@ export class UsersController {
     description: 'Missing access token.',
     type: UnauthorizedResponseDTO,
   })
-  @ApiForbiddenResponse({
-    description: 'Operation not allowed.',
+  @ApiUnauthorizedResponse({
+    description: 'Access denied to this resource.',
     type: ForbiddenResponseDTO,
   })
   @ApiInternalServerErrorResponse({
@@ -98,6 +105,10 @@ export class UsersController {
     description: 'Operation not allowed.',
     type: ForbiddenResponseDTO,
   })
+  @ApiNotFoundResponse({
+    description: 'Resource not found.',
+    type: NotFoundResponseDTO,
+  })
   @ApiInternalServerErrorResponse({
     description: 'Internal Server Error',
     type: InternalServerErrorDTO,
@@ -110,6 +121,10 @@ export class UsersController {
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Edit an existing user.' })
+  @ApiBody({
+    type: UpdateUserDTO,
+    description: 'Data required to update an existing user account.',
+  })
   @ApiOkResponse({
     description: 'User successfully edited.',
     type: UserResponseDTO,
@@ -122,15 +137,23 @@ export class UsersController {
     description: 'Operation not allowed.',
     type: ForbiddenResponseDTO,
   })
+  @ApiNotFoundResponse({
+    description: 'Resource not found.',
+    type: NotFoundResponseDTO,
+  })
+  @ApiUnprocessableEntityResponse({
+    description: 'Invalid or incomplete data.',
+    type: UserUnprocessableEntityResponseDTO,
+  })
   @ApiInternalServerErrorResponse({
     description: 'Internal Server Error',
     type: InternalServerErrorDTO,
   })
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateUserData: UpdateUserDto) {
+  update(@Param('id') id: string, @Body() updateUserData: UpdateUserDTO) {
     return this.usersService.update(
       +id,
-      plainToClass(UpdateUserDto, updateUserData),
+      plainToClass(UpdateUserDTO, updateUserData),
     );
   }
 
@@ -148,6 +171,10 @@ export class UsersController {
   @ApiForbiddenResponse({
     description: 'Operation not allowed.',
     type: ForbiddenResponseDTO,
+  })
+  @ApiNotFoundResponse({
+    description: 'Resource not found.',
+    type: NotFoundResponseDTO,
   })
   @ApiInternalServerErrorResponse({
     description: 'Internal Server Error',

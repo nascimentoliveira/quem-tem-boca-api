@@ -8,8 +8,8 @@ import { PrismaService } from '../prisma/prisma.service';
 import { faker } from '@faker-js/faker';
 import { User } from '../users/entities/user.entity';
 import { UsersFactory } from '../utils/users.factory';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { CreateUserDto } from '../users/dto/create-user.dto';
+import { CreateAuthDTO } from './dto/create-auth.dto';
+import { CreateUserDTO } from '../users/dto/create-user.dto';
 import { ForbiddenException, UnauthorizedException } from '@nestjs/common';
 import { AUTH_CONFIG } from './auth.config';
 import * as jwt from 'jsonwebtoken';
@@ -47,10 +47,10 @@ describe('AuthService', () => {
 
   describe('create', () => {
     it('should create a new user authentication and return user information with an access token', async () => {
-      const userProps: CreateUserDto = usersFactory.generateUserParams();
+      const userProps: CreateUserDTO = usersFactory.generateUserParams();
       const user: User = usersFactory.create(userProps);
       const accessToken: string = faker.string.alphanumeric(50);
-      const createAuthData: CreateAuthDto = {
+      const createAuthData: CreateAuthDTO = {
         email: userProps.email,
         password: userProps.password,
       };
@@ -86,9 +86,9 @@ describe('AuthService', () => {
     });
 
     it('should throw UnauthorizedException if email verification fails', async () => {
-      const userProps: CreateUserDto = usersFactory.generateUserParams();
+      const userProps: CreateUserDTO = usersFactory.generateUserParams();
       const user: User = usersFactory.create(userProps);
-      const createAuthData: CreateAuthDto = {
+      const createAuthData: CreateAuthDTO = {
         email: userProps.email,
         password: userProps.password,
       };
@@ -103,9 +103,9 @@ describe('AuthService', () => {
     });
 
     it('should throw UnauthorizedException if password verification fails', async () => {
-      const userProps: CreateUserDto = usersFactory.generateUserParams();
+      const userProps: CreateUserDTO = usersFactory.generateUserParams();
       const user: User = usersFactory.create(userProps);
-      const createAuthData: CreateAuthDto = {
+      const createAuthData: CreateAuthDTO = {
         email: userProps.email,
         password: userProps.password,
       };
@@ -132,10 +132,10 @@ describe('AuthService', () => {
 
   describe('checkToken', () => {
     it('should verify a valid JWT token and return decoded data', async () => {
-      const userProps: CreateUserDto = usersFactory.generateUserParams();
+      const userProps: CreateUserDTO = usersFactory.generateUserParams();
       const user: User = usersFactory.create(userProps);
       const accessToken: string = faker.string.alphanumeric(50);
-      const createAuthData: CreateAuthDto = {
+      const createAuthData: CreateAuthDTO = {
         email: userProps.email,
         password: userProps.password,
       };
@@ -164,10 +164,10 @@ describe('AuthService', () => {
       });
     });
     it('should throw ForbiddenException if token is expired', async () => {
-      const userProps: CreateUserDto = usersFactory.generateUserParams();
+      const userProps: CreateUserDTO = usersFactory.generateUserParams();
       const user: User = usersFactory.create(userProps);
       const accessToken: string = faker.string.alphanumeric(50);
-      const createAuthData: CreateAuthDto = {
+      const createAuthData: CreateAuthDTO = {
         email: userProps.email,
         password: userProps.password,
       };

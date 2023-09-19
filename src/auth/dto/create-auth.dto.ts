@@ -8,13 +8,13 @@ import { IsEmail, IsNotEmpty } from 'class-validator';
  * It includes the user's email address and password (plaintext).
  */
 
-export class CreateAuthDto {
+export class CreateAuthDTO {
   /**
    * The user's email address.
    * @example 'jonh.doe@email.com'
    */
-  @IsNotEmpty()
-  @IsEmail()
+  @IsNotEmpty({ message: '"e-mail" não pode estar vazio' })
+  @IsEmail({}, { message: '"e-mail" deve ser um endereço de e-mail válido' })
   @ApiProperty({
     type: String,
     example: 'jonh.doe@email.com',
@@ -26,7 +26,7 @@ export class CreateAuthDto {
    * The user's password (plaintext).
    * @example '123paS$word/'
    */
-  @IsNotEmpty()
+  @IsNotEmpty({ message: '"senha" não pode estar vazio' })
   @ApiProperty({
     type: String,
     example: '123paS$word*/',

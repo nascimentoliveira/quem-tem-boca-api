@@ -23,7 +23,8 @@ export class UnauthorizedResponseDTO {
    */
   @ApiProperty({
     type: String,
-    example: `Unexpected header format! Field 'Authorization' not found.`,
+    example:
+      'Token inválido ou expirado. Por favor, faça login em sua conta novamente!',
     description:
       'An error message indicating the reason for unauthorized access.',
   })

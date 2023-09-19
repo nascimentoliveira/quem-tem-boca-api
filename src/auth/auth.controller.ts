@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
+import { CreateAuthDTO } from './dto/create-auth.dto';
 import { AuthResponseDTO } from './dto/response-auth.dto';
 import { RequestRecoveryDTO } from './dto/request-recovery.dto';
 import { ResponseRecoveryDTO } from './dto/reponse-recovery.dto';
@@ -25,7 +25,7 @@ export class AuthController {
 
   @ApiOperation({ summary: 'User login.' })
   @ApiBody({
-    type: CreateAuthDto,
+    type: CreateAuthDTO,
     description: 'User credentials for logging in.',
   })
   @ApiCreatedResponse({
@@ -45,7 +45,7 @@ export class AuthController {
     type: InternalServerErrorDTO,
   })
   @Post()
-  async create(@Body() body: CreateAuthDto) {
+  async create(@Body() body: CreateAuthDTO) {
     return this.authService.create(body);
   }
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDTO } from './dto/create-user.dto';
+import { UpdateUserDTO } from './dto/update-user.dto';
 import { UserResponseDTO } from './dto/response-user.dto';
 import { User } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
@@ -16,9 +16,9 @@ export class UsersRepository {
     updatedAt: true,
   };
 
-  async create(createUserDto: CreateUserDto): Promise<UserResponseDTO> {
+  async create(createUserDTO: CreateUserDTO): Promise<UserResponseDTO> {
     return this.prisma.user.create({
-      data: createUserDto,
+      data: createUserDTO,
       select: this.sanitizedUser,
     });
   }
@@ -51,7 +51,7 @@ export class UsersRepository {
 
   async update(
     id: number,
-    updateUserData: UpdateUserDto,
+    updateUserData: UpdateUserDTO,
   ): Promise<UserResponseDTO> {
     return this.prisma.user.update({
       where: {

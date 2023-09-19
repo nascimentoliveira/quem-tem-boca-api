@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { User } from '../users/entities/user.entity';
-import { CreateUserDto } from '../users/dto/create-user.dto';
+import { CreateUserDTO } from '../users/dto/create-user.dto';
 import { EncryptionService } from '../encryption/encryption.service';
 import { Injectable } from '@nestjs/common';
 
@@ -22,7 +22,7 @@ export class UsersFactory {
    * @param props The properties used to create the user.
    * @returns A new User instance.
    */
-  create(props: User | CreateUserDto): User {
+  create(props: User | CreateUserDTO): User {
     const id: number = faker.number.int(100);
     const createdAt = new Date();
     const updatedAt = new Date();
@@ -39,9 +39,9 @@ export class UsersFactory {
   /**
    * Generates user parameters based on the provided properties or randomly generates them if not provided.
    * @param props Partial properties to customize user generation (e.g., email, username, password).
-   * @returns A CreateUserDto object containing user parameters.
+   * @returns A CreateUserDTO object containing user parameters.
    */
-  generateUserParams(props: Partial<CreateUserDto> = {}): CreateUserDto {
+  generateUserParams(props: Partial<CreateUserDTO> = {}): CreateUserDTO {
     const firstName: string =
       props.username?.split(' ')[0] || faker.person.firstName();
     const lastName: string =

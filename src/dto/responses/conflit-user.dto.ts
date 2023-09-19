@@ -23,7 +23,7 @@ export class UserConflitResponseDTO {
    */
   @ApiProperty({
     type: String,
-    example: 'User with the provided email already exists.',
+    example: 'Já existe um usuário com o e-mail fornecido.',
     description: 'An error message describing the conflict.',
   })
   readonly message: string;

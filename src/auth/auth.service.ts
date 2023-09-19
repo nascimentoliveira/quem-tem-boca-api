@@ -1,5 +1,4 @@
 import {
-  ForbiddenException,
   HttpException,
   Injectable,
   InternalServerErrorException,
@@ -8,7 +7,7 @@ import {
 import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
+import { CreateAuthDTO } from './dto/create-auth.dto';
 import { EncryptionService } from '../encryption/encryption.service';
 import { AUTH_CONFIG } from './auth.config';
 import { RequestRecoveryDTO } from './dto/request-recovery.dto';
@@ -64,33 +63,33 @@ export class AuthService {
     }
 
     throw new InternalServerErrorException(
-      'An internal server error has occurred. ' +
-        'Please check the parameters or try again later.',
+      'Ocorreu um erro interno do servidor. ' +
+        'Por favor, verifique os parâmetros ou tente novamente mais tarde.',
     );
   }
 
   /**
    * Check user credentials (email and password) for authentication.
    *
-   * @param createAuthDto The DTO containing user credentials.
+   * @param createAuthDTO The DTO containing user credentials.
    * @returns User information (id and username) if authentication is successful.
    * @throws {UnauthorizedException} if authentication fails.
    * @throws {InternalServerErrorException} if tauthentication fails for other reasons.
    */
   private async checkCredentials(
-    createAuthDto: CreateAuthDto,
+    createAuthDTO: CreateAuthDTO,
   ): Promise<Pick<User, 'id' | 'username'>> {
     try {
-      const user = await this.findUser(createAuthDto.email);
+      const user = await this.findUser(createAuthDTO.email);
       if (!user) {
-        throw new UnauthorizedException('Email or password are incorrect.');
+        throw new UnauthorizedException('Email e/ou senha estão incorretos.');
       }
       const validPassword: boolean = this.encryptionService.verifyPassword(
-        createAuthDto.password,
+        createAuthDTO.password,
         user.password,
       );
       if (!validPassword) {
-        throw new UnauthorizedException('Email or password are incorrect.');
+        throw new UnauthorizedException('Email e/ou senha estão incorretos.');
       }
       delete user.password;
       return user;
@@ -138,7 +137,7 @@ export class AuthService {
    *
    * @param token The JWT token to verify.
    * @returns The decoded user data from the token if it's valid.
-   * @throws {ForbiddenException} if the token is expired or invalid.
+   * @throws {UnauthorizedException} if the token is expired or invalid.
    * @throws {InternalServerErrorException} if token verification fails for other reasons.
    */
   async checkToken(token: string): Promise<Partial<User>> {
@@ -149,17 +148,17 @@ export class AuthService {
       });
       return JSON.parse(data.sub);
     } catch (error) {
-      throw new ForbiddenException();
+      throw new UnauthorizedException();
     }
   }
 
   /**
    * Create a new user authentication.
    *
-   * @param createAuthDto The DTO containing user credentials.
+   * @param createAuthDTO The DTO containing user credentials.
    * @returns An object containing user information and an access token.
    */
-  async create(newAuthData: CreateAuthDto) {
+  async create(newAuthData: CreateAuthDTO) {
     const user = await this.checkCredentials(newAuthData);
     return {
       id: user.id,
@@ -172,7 +171,7 @@ export class AuthService {
   /**
    * Request password recovery.
    *
-   * @param requestRecoveryDto - The data required to request password recovery.
+   * @param requestRecoveryDTO - The data required to request password recovery.
    * @returns A message indicating that a recovery email will be sent if the provided email is registered.
    */
   async requestRecovery({ email }: RequestRecoveryDTO) {

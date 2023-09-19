@@ -25,7 +25,7 @@ export class AuthUnauthorizedResponseDTO {
    */
   @ApiProperty({
     type: String,
-    example: 'Email or password are incorrect.',
+    example: 'Email e/ou senha estão incorretos.',
     description: 'An error message indicating why the request is unauthorized.',
   })
   readonly message: string;

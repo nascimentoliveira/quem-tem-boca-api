@@ -21,14 +21,16 @@ import {
  * }
  */
 
-export class CreateUserDto {
+export class CreateUserDTO {
   /**
    * The user's name.
    * @example 'Jonh Doe'
    */
-  @IsNotEmpty()
-  @IsString()
-  @Length(3, 32)
+  @IsNotEmpty({ message: '"nome" não pode estar vazio' })
+  @IsString({ message: '"nome" deve ser uma string' })
+  @Length(3, 32, {
+    message: 'O campo "nome" deve ter entre 3 e 32 caracteres.',
+  })
   @ApiProperty({
     type: String,
     example: 'Jonh Doe',
@@ -40,8 +42,8 @@ export class CreateUserDto {
    * The user's email address.
    * @example 'jonh.doe@email.com'
    */
-  @IsNotEmpty()
-  @IsEmail()
+  @IsNotEmpty({ message: '"e-mail" não pode estar vazio' })
+  @IsEmail({}, { message: '"e-mail" deve ser um endereço de e-mail válido' })
   @ApiProperty({
     type: String,
     example: 'jonh.doe@email.com',
@@ -53,8 +55,8 @@ export class CreateUserDto {
    * The user's password (plaintext).
    * @example '123paS$word/'
    */
-  @IsNotEmpty()
-  @IsStrongPassword()
+  @IsNotEmpty({ message: '"senha" não pode estar vazio' })
+  @IsStrongPassword({}, { message: '"senha" deve ser uma senha forte' })
   @ApiProperty({
     type: String,
     example: '123paS$word*/',

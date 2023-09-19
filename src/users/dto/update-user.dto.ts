@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateUserDto } from './create-user.dto';
+import { CreateUserDTO } from './create-user.dto';
 import {
   IsNotEmpty,
   IsString,
@@ -21,14 +21,16 @@ import {
  * }
  */
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {
+export class UpdateUserDTO extends PartialType(CreateUserDTO) {
   /**
    * The user's name.
    * @example 'Jonh Doe'
    */
-  @IsNotEmpty()
-  @IsString()
-  @Length(3, 32)
+  @IsNotEmpty({ message: '"nome" não pode estar vazio' })
+  @IsString({ message: '"nome" deve ser uma string' })
+  @Length(3, 32, {
+    message: 'O campo "nome" deve ter entre 3 e 32 caracteres.',
+  })
   @ApiProperty({
     type: String,
     example: 'Jonh Doe',
@@ -40,8 +42,8 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
    * The user's password (plaintext).
    * @example '123paS$word/'
    */
-  @IsNotEmpty()
-  @IsStrongPassword()
+  @IsNotEmpty({ message: '"senha" não pode estar vazio' })
+  @IsStrongPassword({}, { message: '"senha" deve ser uma senha forte' })
   @ApiProperty({
     type: String,
     example: '123paS$word*/',

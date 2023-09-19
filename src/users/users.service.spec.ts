@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDTO } from './dto/create-user.dto';
 import { UserResponseDTO } from './dto/response-user.dto';
 import { faker } from '@faker-js/faker';
 import { User } from './entities/user.entity';
 import { UsersRepository } from './users.repository';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDTO } from './dto/update-user.dto';
 import { EncryptionService } from '../encryption/encryption.service';
 import { ConflictException, NotFoundException } from '@nestjs/common';
 import { UsersFactory } from '../utils/users.factory';
@@ -19,7 +19,7 @@ function getNextId() {
 const fakeUsersData = [];
 
 const repositoryMock = {
-  create: jest.fn().mockImplementation((userData: CreateUserDto) => {
+  create: jest.fn().mockImplementation((userData: CreateUserDTO) => {
     const id = getNextId();
     const createdAt = new Date();
     const updatedAt = new Date();
@@ -53,7 +53,7 @@ const repositoryMock = {
   }),
   update: jest
     .fn()
-    .mockImplementation((id: number, updateUserData: UpdateUserDto) => {
+    .mockImplementation((id: number, updateUserData: UpdateUserDTO) => {
       const userIndex = fakeUsersData.findIndex((user) => user.id === id);
       if (userIndex !== -1) {
         fakeUsersData[userIndex] = {
@@ -107,7 +107,7 @@ describe('UsersService', () => {
 
   describe('create', () => {
     it('should create a new user', async () => {
-      const newUserData: CreateUserDto = usersFactory.generateUserParams();
+      const newUserData: CreateUserDTO = usersFactory.generateUserParams();
       const user: UserResponseDTO = await usersService.create(newUserData);
 
       expect(usersRepository.findByEmail).toHaveBeenCalledTimes(1);
@@ -122,10 +122,10 @@ describe('UsersService', () => {
     });
 
     it(`should throw ConflictException if user's email is duplicate`, async () => {
-      const newUserData: CreateUserDto = usersFactory.generateUserParams();
+      const newUserData: CreateUserDTO = usersFactory.generateUserParams();
       await usersService.create(newUserData);
       const lengthData = fakeUsersData.length;
-      const otherUserData: CreateUserDto = usersFactory.generateUserParams({
+      const otherUserData: CreateUserDTO = usersFactory.generateUserParams({
         email: newUserData.email,
       });
 
@@ -158,7 +158,7 @@ describe('UsersService', () => {
 
   describe('findOne', () => {
     it('should return a user by ID', async () => {
-      const newUserData: CreateUserDto = usersFactory.generateUserParams();
+      const newUserData: CreateUserDTO = usersFactory.generateUserParams();
       const user: UserResponseDTO = await usersService.create(newUserData);
       const userFound: UserResponseDTO = await usersService.findOne(user.id);
 
@@ -180,9 +180,9 @@ describe('UsersService', () => {
 
   describe('update', () => {
     it('should update a user by ID', async () => {
-      const newUserData: CreateUserDto = usersFactory.generateUserParams();
+      const newUserData: CreateUserDTO = usersFactory.generateUserParams();
       const user: UserResponseDTO = await usersService.create(newUserData);
-      const updateUserData: UpdateUserDto = {
+      const updateUserData: UpdateUserDTO = {
         username: faker.internet.userName(),
         password: faker.internet.password(),
       };
@@ -203,7 +203,7 @@ describe('UsersService', () => {
     });
 
     it('should throw NotFoundException if user is not found', async () => {
-      const updateUserData: UpdateUserDto = {
+      const updateUserData: UpdateUserDTO = {
         username: faker.internet.userName(),
         password: faker.internet.password(),
       };
@@ -219,7 +219,7 @@ describe('UsersService', () => {
 
   describe('remove', () => {
     it('should remove a user by ID', async () => {
-      const newUserData: CreateUserDto = usersFactory.generateUserParams();
+      const newUserData: CreateUserDTO = usersFactory.generateUserParams();
       const user: UserResponseDTO = await usersService.create(newUserData);
       const lengthData = fakeUsersData.length;
       const removedUser = await usersService.remove(user.id);

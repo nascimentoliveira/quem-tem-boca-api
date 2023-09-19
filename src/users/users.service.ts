@@ -5,8 +5,8 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDTO } from './dto/create-user.dto';
+import { UpdateUserDTO } from './dto/update-user.dto';
 import { UsersRepository } from './users.repository';
 import { UserResponseDTO } from './dto/response-user.dto';
 import { EncryptionService } from '../encryption/encryption.service';
@@ -56,8 +56,8 @@ export class UsersService {
     }
 
     throw new InternalServerErrorException(
-      'An internal server error has occurred. ' +
-        'Please check the parameters or try again later.',
+      'Ocorreu um erro interno do servidor. ' +
+        'Por favor, verifique os parâmetros ou tente novamente mais tarde.',
     );
   }
 
@@ -68,7 +68,7 @@ export class UsersService {
    * @returns The newly created user.
    * @throws {ConflictException} if the email is not unique.
    */
-  async create(newUserData: CreateUserDto): Promise<UserResponseDTO> {
+  async create(newUserData: CreateUserDTO): Promise<UserResponseDTO> {
     try {
       const encryptedEmail: string = this.encryptionService.encryptEmail(
         newUserData.email,
@@ -76,7 +76,7 @@ export class UsersService {
       const isEmailUnique: boolean = await this.isEmailUnique(encryptedEmail);
       if (!isEmailUnique) {
         throw new ConflictException(
-          'User with the provided email already exists.',
+          'Já existe um usuário com o e-mail fornecido.',
         );
       }
       const encryptedPassword: string = this.encryptionService.encryptPassword(
@@ -119,7 +119,7 @@ export class UsersService {
     try {
       const user: UserResponseDTO = await this.usersRepository.findOne(id);
       if (!user) {
-        throw new NotFoundException('User not found!');
+        throw new NotFoundException('Usuário não encontrado!');
       }
       return user;
     } catch (error) {
@@ -153,7 +153,7 @@ export class UsersService {
    */
   async update(
     id: number,
-    updateUserData: UpdateUserDto,
+    updateUserData: UpdateUserDTO,
   ): Promise<UserResponseDTO> {
     try {
       await this.findOne(id);
