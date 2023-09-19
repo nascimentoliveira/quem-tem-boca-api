@@ -11,6 +11,7 @@ import { UsersService } from '../users/users.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { EncryptionService } from '../encryption/encryption.service';
 import { AUTH_CONFIG } from './auth.config';
+import { RequestRecoveryDTO } from './dto/request-recovery.dto';
 
 /**
  * Authentication Service
@@ -165,6 +166,18 @@ export class AuthService {
       username: user.username,
       email: newAuthData.email,
       accessToken: await this.createToken(newAuthData.email, user),
+    };
+  }
+
+  /**
+   * Request password recovery.
+   *
+   * @param requestRecoveryDto - The data required to request password recovery.
+   * @returns A message indicating that a recovery email will be sent if the provided email is registered.
+   */
+  async requestRecovery({ email }: RequestRecoveryDTO) {
+    return {
+      message: `Se '${email}' estiver cadastrado, um e-mail de recuperação será enviado.`,
     };
   }
 }

@@ -2,12 +2,16 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { AuthResponseDTO } from './dto/response-auth.dto';
+import { RequestRecoveryDTO } from './dto/request-recovery.dto';
+import { ResponseRecoveryDTO } from './dto/reponse-recovery.dto';
+import { RecoveryUnprocessableEntityResponseDTO } from './dto/unprossessable-recovery.dto';
 import { AuthUnprocessableEntityResponseDTO } from './dto/unprossessable-auth.dto';
-import { AuthUnauthorizedResponseDTO } from './dto/unauthoruzed-auth.dto';
+import { AuthUnauthorizedResponseDTO } from './dto/unauthorized-auth.dto';
 import { InternalServerErrorDTO } from '../dto/responses/internal-server-error.dto';
 import {
+  ApiBody,
+  ApiCreatedResponse,
   ApiInternalServerErrorResponse,
-  ApiOkResponse,
   ApiOperation,
   ApiTags,
   ApiUnauthorizedResponse,
@@ -20,7 +24,11 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @ApiOperation({ summary: 'User login.' })
-  @ApiOkResponse({
+  @ApiBody({
+    type: CreateAuthDto,
+    description: 'User credentials for logging in.',
+  })
+  @ApiCreatedResponse({
     description: 'User logged in successfully.',
     type: AuthResponseDTO,
   })
@@ -39,5 +47,27 @@ export class AuthController {
   @Post()
   async create(@Body() body: CreateAuthDto) {
     return this.authService.create(body);
+  }
+
+  @ApiOperation({ summary: 'Request password recovery' })
+  @ApiBody({
+    type: RequestRecoveryDTO,
+    description: 'The data required to initiate a password recovery request.',
+  })
+  @ApiCreatedResponse({
+    description: 'Password recovery request initiated successfully.',
+    type: ResponseRecoveryDTO,
+  })
+  @ApiUnprocessableEntityResponse({
+    description: 'Invalid or incomplete data.',
+    type: RecoveryUnprocessableEntityResponseDTO,
+  })
+  @ApiInternalServerErrorResponse({
+    description: 'Internal Server Error',
+    type: InternalServerErrorDTO,
+  })
+  @Post('recovery')
+  async requestRecovery(@Body() body: RequestRecoveryDTO) {
+    return this.authService.requestRecovery(body);
   }
 }

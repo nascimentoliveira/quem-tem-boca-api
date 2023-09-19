@@ -7,7 +7,6 @@ import { UserResponseDTO } from '../../users/dto/response-user.dto';
  * This DTO represents the response data when a user is successfully authenticated.
  * It includes the user information and an access token.
  */
-
 export class AuthResponseDTO {
   /**
    * User information.
