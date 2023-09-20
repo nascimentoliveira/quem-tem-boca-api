@@ -1,55 +1,51 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateDrinkDTO } from './create-drink.dto';
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsString,
-  IsNotEmpty,
-  IsOptional,
-  IsUrl,
-  IsNumber,
-  Min,
-  IsInt,
-} from 'class-validator';
 
 /**
- * Update Drink DTO
+ * Drink Response DTO
  *
- * This DTO represents the data required to update an existing drink.
- * It includes the drink's name (optional), description (optional), image URL (optional),
- * price (optional), and the identifier of the establishment to which the drink belongs (optional).
+ * This DTO represents a drink's information when retrieved as a response.
+ * It includes the drink's ID, name, optional description, image URL, price,
+ * establishment identifier, creation date, and last update date.
  *
  * @example
  * {
+ *   id: 1,
  *   name: 'Soda',
  *   description: 'Refreshing beverage',
  *   imageUrl: 'https://example.com/drink.jpg',
  *   price: 250,
  *   establishmentId: 1,
+ *   createdAt: '2023-09-20T12:00:00Z',
+ *   updatedAt: '2023-09-20T14:30:00Z',
  * }
  */
-export class UpdateDrinkDto extends PartialType(CreateDrinkDTO) {
+export class DrinkResponseDTO {
+  /**
+   * The unique identifier for the drink.
+   * @example 1
+   */
+  @ApiProperty({
+    type: Number,
+    example: 1,
+    description: 'The unique identifier for the drink.',
+  })
+  readonly id: number;
+
   /**
    * The name of the drink.
    * @example 'Soda'
    */
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
   @ApiProperty({
     type: String,
     example: 'Soda',
     description: 'The name of the drink.',
-    required: false,
   })
-  readonly name?: string;
+  readonly name: string;
 
   /**
    * A description of the drink (optional).
    * @example 'Refreshing beverage'
    */
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
   @ApiProperty({
     type: String,
     example: 'Refreshing beverage',
@@ -62,45 +58,57 @@ export class UpdateDrinkDto extends PartialType(CreateDrinkDTO) {
    * The URL of the drink's image.
    * @example 'https://example.com/drink.jpg'
    */
-  @IsOptional()
-  @IsString()
-  @IsUrl()
-  @IsNotEmpty()
   @ApiProperty({
     type: String,
     example: 'https://example.com/drink.jpg',
     description: "The URL of the drink's image.",
-    required: false,
   })
-  readonly imageUrl?: string;
+  readonly imageUrl: string;
 
   /**
    * The price of the drink (in cents).
    * @example 250
    */
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
   @ApiProperty({
     type: Number,
     example: 250,
     description: 'The price of the drink (in cents).',
-    required: false,
   })
-  readonly price?: number;
+  readonly price: number;
 
   /**
    * The identifier of the establishment to which the drink belongs.
    * @example 1
    */
-  @IsOptional()
-  @IsInt()
   @ApiProperty({
     type: Number,
     example: 1,
     description:
       'The identifier of the establishment to which the drink belongs.',
-    required: false,
   })
-  readonly establishmentId?: number;
+  readonly establishmentId: number;
+
+  /**
+   * The date and time when the drink was created.
+   * @example '2023-09-20T12:00:00Z'
+   */
+  @ApiProperty({
+    type: String,
+    format: 'date-time',
+    example: '2023-09-20T12:00:00Z',
+    description: 'The date and time when the drink was created.',
+  })
+  readonly createdAt: string | Date;
+
+  /**
+   * The date and time when the drink was last updated.
+   * @example '2023-09-20T14:30:00Z'
+   */
+  @ApiProperty({
+    type: String,
+    format: 'date-time',
+    example: '2023-09-20T14:30:00Z',
+    description: 'The date and time when the drink was last updated.',
+  })
+  readonly updatedAt: string | Date;
 }
