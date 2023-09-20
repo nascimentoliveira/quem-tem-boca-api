@@ -1,37 +1,40 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsString,
-  IsOptional,
-  IsUrl,
-  IsNumber,
-  IsInt,
-  Min,
-  IsNotEmpty,
-} from 'class-validator';
 
 /**
- * Create Dish DTO
+ * Dish Response DTO
  *
- * This DTO represents the data required to create a new dish.
- * It includes the dish's name, optional description, image URL, price,
- * and the identifier of the establishment to which it belongs.
+ * This DTO represents a dish's information when retrieved as a response.
+ * It includes the dish's ID, name, optional description, image URL, price,
+ * establishment identifier, creation date, and last update date.
  *
  * @example
  * {
+ *   id: 1,
  *   name: 'Pizza Margherita',
  *   description: 'Classic Italian pizza',
  *   imageUrl: 'https://example.com/pizza.jpg',
  *   price: 4999,
  *   establishmentId: 1,
+ *   createdAt: '2023-09-20T12:00:00Z',
+ *   updatedAt: '2023-09-20T14:30:00Z',
  * }
  */
-export class CreateDishDTO {
+export class DishResponseDTO {
+  /**
+   * The unique identifier for the dish.
+   * @example 1
+   */
+  @ApiProperty({
+    type: Number,
+    example: 1,
+    description: 'The unique identifier for the dish.',
+  })
+  readonly id: number;
+
   /**
    * The name of the dish.
    * @example 'Pizza Margherita'
    */
-  @IsString()
-  @IsNotEmpty()
   @ApiProperty({
     type: String,
     example: 'Pizza Margherita',
@@ -43,9 +46,6 @@ export class CreateDishDTO {
    * A description of the dish (optional).
    * @example 'Classic Italian pizza'
    */
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
   @ApiProperty({
     type: String,
     example: 'Classic Italian pizza',
@@ -58,9 +58,6 @@ export class CreateDishDTO {
    * The URL of the dish's image.
    * @example 'https://example.com/pizza.jpg'
    */
-  @IsString()
-  @IsUrl()
-  @IsNotEmpty()
   @ApiProperty({
     type: String,
     example: 'https://example.com/pizza.jpg',
@@ -72,8 +69,6 @@ export class CreateDishDTO {
    * The price of the dish (in cents).
    * @example 4999
    */
-  @IsNumber()
-  @Min(0)
   @ApiProperty({
     type: Number,
     example: 4999,
@@ -85,7 +80,6 @@ export class CreateDishDTO {
    * The identifier of the establishment to which the dish belongs.
    * @example 1
    */
-  @IsInt()
   @ApiProperty({
     type: Number,
     example: 1,
@@ -93,4 +87,28 @@ export class CreateDishDTO {
       'The identifier of the establishment to which the dish belongs.',
   })
   readonly establishmentId: number;
+
+  /**
+   * The date and time when the dish was created.
+   * @example '2023-09-20T12:00:00Z'
+   */
+  @ApiProperty({
+    type: String,
+    format: 'date-time',
+    example: '2023-09-20T12:00:00Z',
+    description: 'The date and time when the dish was created.',
+  })
+  readonly createdAt: string | Date;
+
+  /**
+   * The date and time when the dish was last updated.
+   * @example '2023-09-20T14:30:00Z'
+   */
+  @ApiProperty({
+    type: String,
+    format: 'date-time',
+    example: '2023-09-20T14:30:00Z',
+    description: 'The date and time when the dish was last updated.',
+  })
+  readonly updatedAt: string | Date;
 }
