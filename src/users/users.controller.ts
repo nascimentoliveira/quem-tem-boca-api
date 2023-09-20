@@ -74,11 +74,11 @@ export class UsersController {
     type: UserResponseDTO,
   })
   @ApiUnauthorizedResponse({
-    description: 'Missing access token.',
+    description: 'Invalid access token or authentication credentials.',
     type: UnauthorizedResponseDTO,
   })
-  @ApiUnauthorizedResponse({
-    description: 'Access denied to this resource.',
+  @ApiForbiddenResponse({
+    description: 'Operation not allowed. Missing access token.',
     type: ForbiddenResponseDTO,
   })
   @ApiInternalServerErrorResponse({
@@ -98,11 +98,11 @@ export class UsersController {
     type: UserResponseDTO,
   })
   @ApiUnauthorizedResponse({
-    description: 'Missing access token.',
+    description: 'Invalid access token or authentication credentials.',
     type: UnauthorizedResponseDTO,
   })
   @ApiForbiddenResponse({
-    description: 'Operation not allowed.',
+    description: 'Operation not allowed. Missing access token.',
     type: ForbiddenResponseDTO,
   })
   @ApiNotFoundResponse({
@@ -130,11 +130,11 @@ export class UsersController {
     type: UserResponseDTO,
   })
   @ApiUnauthorizedResponse({
-    description: 'Missing access token.',
+    description: 'Invalid access token or authentication credentials.',
     type: UnauthorizedResponseDTO,
   })
   @ApiForbiddenResponse({
-    description: 'Operation not allowed.',
+    description: 'Operation not allowed. Missing access token.',
     type: ForbiddenResponseDTO,
   })
   @ApiNotFoundResponse({
@@ -165,11 +165,11 @@ export class UsersController {
     type: UserResponseDTO,
   })
   @ApiUnauthorizedResponse({
-    description: 'Missing access token.',
+    description: 'Invalid access token or authentication credentials.',
     type: UnauthorizedResponseDTO,
   })
   @ApiForbiddenResponse({
-    description: 'Operation not allowed.',
+    description: 'Operation not allowed. Missing access token.',
     type: ForbiddenResponseDTO,
   })
   @ApiNotFoundResponse({

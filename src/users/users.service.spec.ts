@@ -121,7 +121,7 @@ describe('UsersService', () => {
       expect(user.username).toBe(newUserData.username);
     });
 
-    it(`should throw ConflictException if user's email is duplicate`, async () => {
+    it("should throw ConflictException if user's email is duplicate", async () => {
       const newUserData: CreateUserDTO = usersFactory.generateUserParams();
       await usersService.create(newUserData);
       const lengthData = fakeUsersData.length;

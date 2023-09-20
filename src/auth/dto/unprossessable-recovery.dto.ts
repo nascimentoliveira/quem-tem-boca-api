@@ -22,14 +22,11 @@ export class RecoveryUnprocessableEntityResponseDTO {
 
   /**
    * An array of error messages describing why the request was unprocessable.
-   * @example [ "e-mail" não pode estar vazio', '"e-mail" deve ser um endereço de e-mail válido' ]
+   * @example [ 'email should not be empty', 'email must be an email' ]
    */
   @ApiProperty({
     type: [String],
-    example: [
-      '"e-mail" não pode estar vazio',
-      '"e-mail" deve ser um endereço de e-mail válido',
-    ],
+    example: ['email should not be empty', 'email must be an email'],
     description:
       'An array of error messages describing why the request was unprocessable.',
   })

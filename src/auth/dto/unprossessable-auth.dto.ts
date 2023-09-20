@@ -22,14 +22,14 @@ export class AuthUnprocessableEntityResponseDTO {
 
   /**
    * An array of error messages describing why the request was unprocessable.
-   * @example [ "e-mail" não pode estar vazio', '"e-mail" deve ser um endereço de e-mail válido', '"senha" não pode estar vazio' ]
+   * @example [ 'username should not be empty', 'email must be an email', 'password is not strong enough' ]
    */
   @ApiProperty({
     type: [String],
     example: [
-      '"e-mail" não pode estar vazio',
-      '"e-mail" deve ser um endereço de e-mail válido',
-      '"senha" não pode estar vazio',
+      'username should not be empty',
+      'email must be an email',
+      'password is not strong enough',
     ],
     description:
       'An array of error messages describing why the request was unprocessable.',

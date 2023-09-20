@@ -14,7 +14,6 @@ import { ApiProperty } from '@nestjs/swagger';
  *   updatedAt: '2023-06-11T14:21:50.640Z',
  * }
  */
-
 export class UserResponseDTO {
   /**
    * The user's ID.
@@ -23,7 +22,7 @@ export class UserResponseDTO {
   @ApiProperty({
     type: Number,
     example: 1,
-    description: `The user's id.`,
+    description: "The user's id.",
   })
   readonly id: number;
 
@@ -34,7 +33,7 @@ export class UserResponseDTO {
   @ApiProperty({
     type: String,
     example: 'Jonh',
-    description: `The user's name.`,
+    description: "The user's name.",
   })
   readonly username: string;
 

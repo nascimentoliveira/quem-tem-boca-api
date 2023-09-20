@@ -13,12 +13,12 @@ export class CreateAuthDTO {
    * The user's email address.
    * @example 'jonh.doe@email.com'
    */
-  @IsNotEmpty({ message: '"e-mail" não pode estar vazio' })
-  @IsEmail({}, { message: '"e-mail" deve ser um endereço de e-mail válido' })
+  @IsNotEmpty()
+  @IsEmail()
   @ApiProperty({
     type: String,
     example: 'jonh.doe@email.com',
-    description: `The user's email address.`,
+    description: "The user's email address.",
   })
   readonly email: string;
 
@@ -26,11 +26,11 @@ export class CreateAuthDTO {
    * The user's password (plaintext).
    * @example '123paS$word/'
    */
-  @IsNotEmpty({ message: '"senha" não pode estar vazio' })
+  @IsNotEmpty()
   @ApiProperty({
     type: String,
     example: '123paS$word*/',
-    description: `The user's password.`,
+    description: "The user's password.",
   })
   readonly password: string;
 }

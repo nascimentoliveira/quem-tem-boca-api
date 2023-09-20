@@ -3,7 +3,8 @@ import { ApiProperty } from '@nestjs/swagger';
 /**
  * Unauthorized Response DTO
  *
- * This DTO represents a response indicating that access is unauthorized, typically due to missing or invalid authentication credentials.
+ * This DTO represents a response indicating that access is
+ * not authorized due to invalid authentication credentials.
  */
 export class UnauthorizedResponseDTO {
   /**

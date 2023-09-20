@@ -11,7 +11,6 @@ import { ApiProperty } from '@nestjs/swagger';
  *   error: 'Unprocessable Entity',
  * }
  */
-
 export class UserUnprocessableEntityResponseDTO {
   /**
    * The HTTP status code indicating an Unprocessable Entity error.
@@ -27,14 +26,11 @@ export class UserUnprocessableEntityResponseDTO {
 
   /**
    * An array of error messages describing why the request was unprocessable.
-   * @example [ '"nome" não pode estar vazio', '"senha" deve ser uma senha forte' ]
+   * @example [ 'username should not be empty', 'password is not strong enough' ]
    */
   @ApiProperty({
     type: [String],
-    example: [
-      '"nome" não pode estar vazio',
-      '"senha" deve ser uma senha forte',
-    ],
+    example: ['username should not be empty', 'password is not strong enough'],
     description:
       'An array of error messages describing why the request was unprocessable.',
   })

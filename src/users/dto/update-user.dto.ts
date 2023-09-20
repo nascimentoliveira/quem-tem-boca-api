@@ -26,28 +26,26 @@ export class UpdateUserDTO extends PartialType(CreateUserDTO) {
    * The user's name.
    * @example 'Jonh Doe'
    */
-  @IsNotEmpty({ message: '"nome" não pode estar vazio' })
-  @IsString({ message: '"nome" deve ser uma string' })
-  @Length(3, 32, {
-    message: 'O campo "nome" deve ter entre 3 e 32 caracteres.',
-  })
+  @IsNotEmpty()
+  @IsString()
+  @Length(3, 32)
   @ApiProperty({
     type: String,
     example: 'Jonh Doe',
-    description: `The user's name.`,
+    description: "The user's name.",
   })
-  readonly username: string;
+  readonly username?: string;
 
   /**
    * The user's password (plaintext).
    * @example '123paS$word/'
    */
-  @IsNotEmpty({ message: '"senha" não pode estar vazio' })
-  @IsStrongPassword({}, { message: '"senha" deve ser uma senha forte' })
+  @IsNotEmpty()
+  @IsStrongPassword()
   @ApiProperty({
     type: String,
     example: '123paS$word*/',
-    description: `The user's password.`,
+    description: "The user's password.",
   })
-  readonly password: string;
+  readonly password?: string;
 }

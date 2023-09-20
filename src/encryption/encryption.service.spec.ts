@@ -18,7 +18,7 @@ describe('EncryptionService', () => {
   });
 
   describe('encryptEmail', () => {
-    it(`should encrypt a user's email correctly`, () => {
+    it("should encrypt a user's email correctly", () => {
       const email = faker.internet.email();
       const encryptedEmail = service.encryptEmail(email);
       const isValidHex = /^[0-9A-Fa-f]+$/g.test(encryptedEmail);
@@ -31,7 +31,7 @@ describe('EncryptionService', () => {
   });
 
   describe('encryptPassword', () => {
-    it(`should encrypt a user's password correctly`, () => {
+    it("should encrypt a user's password correctly", () => {
       const password = faker.internet.password();
       const encryptedPassword = service.encryptPassword(password);
 
@@ -43,7 +43,7 @@ describe('EncryptionService', () => {
   });
 
   describe('verifyPassword', () => {
-    it(`should check a user's password is correct`, () => {
+    it("should check a user's password is correct", () => {
       const password = faker.internet.password();
       const encryptedPassword = service.encryptPassword(password);
       const isPasswordValid = service.verifyPassword(
@@ -54,7 +54,7 @@ describe('EncryptionService', () => {
       expect(isPasswordValid).toBe(true);
     });
 
-    it(`should check a user's password is incorrect`, () => {
+    it("should check a user's password is incorrect", () => {
       const password = faker.internet.password();
       const encryptedPassword = service.encryptPassword(password);
       const incorrectPassword = faker.internet.password();

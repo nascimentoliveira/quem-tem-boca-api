@@ -13,12 +13,12 @@ export class RequestRecoveryDTO {
    * @example 'john.doe@email.com'
    * @description The email address associated with the user's account. It will be used for sending a password recovery email.
    */
-  @IsNotEmpty({ message: '"e-mail" não pode estar vazio' })
-  @IsEmail({}, { message: '"e-mail" deve ser um endereço de e-mail válido' })
+  @IsNotEmpty()
+  @IsEmail()
   @ApiProperty({
     type: String,
     example: 'jonh.doe@email.com',
-    description: `The user's email address.`,
+    description: "The user's email address.",
   })
   readonly email: string;
 }
