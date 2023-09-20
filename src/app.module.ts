@@ -6,9 +6,10 @@ import { EncryptionModule } from './encryption/encryption.module';
 import { RedirectMiddleware } from './middlewares/redirect.middleware';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { EstablishmentsModule } from './establishments/establishments.module';
 
 @Module({
-  imports: [PrismaModule, EncryptionModule, UsersModule, AuthModule],
+  imports: [PrismaModule, EncryptionModule, UsersModule, AuthModule, EstablishmentsModule],
   controllers: [AppController],
   providers: [AppService],
 })
