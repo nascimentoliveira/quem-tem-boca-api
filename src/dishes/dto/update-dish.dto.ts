@@ -6,7 +6,6 @@ import {
   IsOptional,
   IsUrl,
   IsNumber,
-  IsInt,
   Min,
   IsNotEmpty,
 } from 'class-validator';
@@ -15,8 +14,8 @@ import {
  * Update Dish DTO
  *
  * This DTO represents the data used to update an existing dish.
- * It includes the dish's name, optional description, image URL, price,
- * and the identifier of the establishment to which it belongs.
+ * It includes the dish's name, optional description, image URL
+ * and price (in cents).
  *
  * @example
  * {
@@ -24,10 +23,9 @@ import {
  *   description: 'Classic Italian pizza',
  *   imageUrl: 'https://example.com/pizza.jpg',
  *   price: 4999,
- *   establishmentId: 1,
  * }
  */
-export class UpdateDishDto extends PartialType(CreateDishDTO) {
+export class UpdateDishDTO extends PartialType(CreateDishDTO) {
   /**
    * The name of the dish.
    * @example 'Pizza Margherita'
@@ -88,19 +86,4 @@ export class UpdateDishDto extends PartialType(CreateDishDTO) {
     required: false,
   })
   readonly price?: number;
-
-  /**
-   * The identifier of the establishment to which the dish belongs.
-   * @example 1
-   */
-  @IsOptional()
-  @IsInt()
-  @ApiProperty({
-    type: Number,
-    example: 1,
-    description:
-      'The identifier of the establishment to which the dish belongs.',
-    required: false,
-  })
-  readonly establishmentId?: number;
 }

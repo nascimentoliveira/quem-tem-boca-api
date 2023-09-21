@@ -4,7 +4,6 @@ import {
   IsOptional,
   IsUrl,
   IsNumber,
-  IsInt,
   Min,
   IsNotEmpty,
 } from 'class-validator';
@@ -13,8 +12,8 @@ import {
  * Create Dish DTO
  *
  * This DTO represents the data required to create a new dish.
- * It includes the dish's name, optional description, image URL, price,
- * and the identifier of the establishment to which it belongs.
+ * It includes the dish's name, optional description, image URL
+ * and price (in cents).
  *
  * @example
  * {
@@ -22,7 +21,6 @@ import {
  *   description: 'Classic Italian pizza',
  *   imageUrl: 'https://example.com/pizza.jpg',
  *   price: 4999,
- *   establishmentId: 1,
  * }
  */
 export class CreateDishDTO {
@@ -80,17 +78,4 @@ export class CreateDishDTO {
     description: 'The price of the dish (in cents).',
   })
   readonly price: number;
-
-  /**
-   * The identifier of the establishment to which the dish belongs.
-   * @example 1
-   */
-  @IsInt()
-  @ApiProperty({
-    type: Number,
-    example: 1,
-    description:
-      'The identifier of the establishment to which the dish belongs.',
-  })
-  readonly establishmentId: number;
 }

@@ -4,8 +4,8 @@ import { ApiProperty } from '@nestjs/swagger';
  * Dish Response DTO
  *
  * This DTO represents a dish's information when retrieved as a response.
- * It includes the dish's ID, name, optional description, image URL, price,
- * establishment identifier, creation date, and last update date.
+ * It includes the dish's ID, name, optional description, image URL, price
+ * (in cents), creation date, and last update date.
  *
  * @example
  * {
@@ -14,7 +14,6 @@ import { ApiProperty } from '@nestjs/swagger';
  *   description: 'Classic Italian pizza',
  *   imageUrl: 'https://example.com/pizza.jpg',
  *   price: 4999,
- *   establishmentId: 1,
  *   createdAt: '2023-09-20T12:00:00Z',
  *   updatedAt: '2023-09-20T14:30:00Z',
  * }
@@ -75,18 +74,6 @@ export class DishResponseDTO {
     description: 'The price of the dish (in cents).',
   })
   readonly price: number;
-
-  /**
-   * The identifier of the establishment to which the dish belongs.
-   * @example 1
-   */
-  @ApiProperty({
-    type: Number,
-    example: 1,
-    description:
-      'The identifier of the establishment to which the dish belongs.',
-  })
-  readonly establishmentId: number;
 
   /**
    * The date and time when the dish was created.
