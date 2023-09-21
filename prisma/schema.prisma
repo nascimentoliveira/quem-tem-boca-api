@@ -13,6 +13,7 @@ model User {
   email     String   @unique @db.VarChar(255)
   username  String   @db.VarChar(255)
   password  String   @db.VarChar(255)
+  isAdmin   Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -24,8 +25,8 @@ model Establishment {
   name           String   @db.VarChar(255)
   phone          String   @db.VarChar(11)
   address        String   @db.VarChar(255)
-  opening        DateTime
-  closing        DateTime
+  opening        String   @db.VarChar(5)
+  closing        String   @db.VarChar(5)
   description    String   @db.VarChar(255)
   minTicket      Int
   minServiceTime Int

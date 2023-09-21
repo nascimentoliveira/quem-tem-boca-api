@@ -7,7 +7,7 @@ import { DrinkResponseDTO } from 'src/drinks/dto/response-drink.dto';
  *
  * This DTO represents establishment information when retrieved as a response.
  * It includes the establishment's ID, name, phone, address, opening, closing,
- * isOpen, description, minTicket, minServiceTime, maxServiceTime, avatarUrl,
+ * description, minTicket, minServiceTime, maxServiceTime, avatarUrl,
  * bannerUrl, creation date, and last update date.
  *
  * @example
@@ -18,7 +18,6 @@ import { DrinkResponseDTO } from 'src/drinks/dto/response-drink.dto';
  *   address: '123 Main Street',
  *   opening: '14:00',
  *   closing: '22:00',
- *   isOpen: true,
  *   description: 'Fast food',
  *   minTicket: 10,
  *   minServiceTime: 60,
@@ -117,18 +116,6 @@ export class EstablishmentResponseDTO {
     description: 'The closing time of the establishment.',
   })
   readonly closing: string;
-
-  /**
-   * A boolean flag indicating whether the establishment is currently open.
-   * @example true
-   */
-  @ApiProperty({
-    type: Boolean,
-    example: true,
-    description:
-      'A boolean flag indicating whether the establishment is currently open.',
-  })
-  readonly isOpen: boolean;
 
   /**
    * A description of the establishment.

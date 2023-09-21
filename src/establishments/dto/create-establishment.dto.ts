@@ -102,7 +102,7 @@ export class CreateEstablishmentDTO {
     example: '08:00',
     description: 'The opening time of the establishment (string).',
   })
-  readonly opening: string | Date;
+  readonly opening: string;
 
   /**
    * The closing time of the establishment (date or string).
