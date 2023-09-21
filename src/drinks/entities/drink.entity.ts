@@ -54,7 +54,7 @@ export class Drink implements Partial<Prisma.DrinkUncheckedCreateInput> {
    * The identifier of the establishment to which the drink belongs.
    * @example 1
    */
-  establishmentId: number;
+  establishmentId?: number;
 
   /**
    * The date and time when the drink was created.

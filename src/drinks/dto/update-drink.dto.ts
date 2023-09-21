@@ -8,15 +8,14 @@ import {
   IsUrl,
   IsNumber,
   Min,
-  IsInt,
 } from 'class-validator';
 
 /**
  * Update Drink DTO
  *
  * This DTO represents the data required to update an existing drink.
- * It includes the drink's name (optional), description (optional), image URL (optional),
- * price (optional), and the identifier of the establishment to which the drink belongs (optional).
+ * It includes the drink's name (optional), description (optional),
+ * image URL (optional) and price (optional).
  *
  * @example
  * {
@@ -24,10 +23,9 @@ import {
  *   description: 'Refreshing beverage',
  *   imageUrl: 'https://example.com/drink.jpg',
  *   price: 250,
- *   establishmentId: 1,
  * }
  */
-export class UpdateDrinkDto extends PartialType(CreateDrinkDTO) {
+export class UpdateDrinkDTO extends PartialType(CreateDrinkDTO) {
   /**
    * The name of the drink.
    * @example 'Soda'
@@ -88,19 +86,4 @@ export class UpdateDrinkDto extends PartialType(CreateDrinkDTO) {
     required: false,
   })
   readonly price?: number;
-
-  /**
-   * The identifier of the establishment to which the drink belongs.
-   * @example 1
-   */
-  @IsOptional()
-  @IsInt()
-  @ApiProperty({
-    type: Number,
-    example: 1,
-    description:
-      'The identifier of the establishment to which the drink belongs.',
-    required: false,
-  })
-  readonly establishmentId?: number;
 }

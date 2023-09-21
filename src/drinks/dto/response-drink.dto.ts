@@ -5,7 +5,7 @@ import { ApiProperty } from '@nestjs/swagger';
  *
  * This DTO represents a drink's information when retrieved as a response.
  * It includes the drink's ID, name, optional description, image URL, price,
- * establishment identifier, creation date, and last update date.
+ * creation date, and last update date.
  *
  * @example
  * {
@@ -14,7 +14,6 @@ import { ApiProperty } from '@nestjs/swagger';
  *   description: 'Refreshing beverage',
  *   imageUrl: 'https://example.com/drink.jpg',
  *   price: 250,
- *   establishmentId: 1,
  *   createdAt: '2023-09-20T12:00:00Z',
  *   updatedAt: '2023-09-20T14:30:00Z',
  * }
@@ -75,18 +74,6 @@ export class DrinkResponseDTO {
     description: 'The price of the drink (in cents).',
   })
   readonly price: number;
-
-  /**
-   * The identifier of the establishment to which the drink belongs.
-   * @example 1
-   */
-  @ApiProperty({
-    type: Number,
-    example: 1,
-    description:
-      'The identifier of the establishment to which the drink belongs.',
-  })
-  readonly establishmentId: number;
 
   /**
    * The date and time when the drink was created.

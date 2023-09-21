@@ -6,15 +6,14 @@ import {
   IsUrl,
   IsNumber,
   Min,
-  IsInt,
 } from 'class-validator';
 
 /**
  * Create Drink DTO
  *
  * This DTO represents the data required to create a new drink.
- * It includes the drink's name, optional description, image URL, price,
- * and the identifier of the establishment to which the drink belongs.
+ * It includes the drink's name, optional description, image URL
+ * and price (in cents).
  *
  * @example
  * {
@@ -22,7 +21,6 @@ import {
  *   description: 'Refreshing beverage',
  *   imageUrl: 'https://example.com/drink.jpg',
  *   price: 250,
- *   establishmentId: 1,
  * }
  */
 export class CreateDrinkDTO {
@@ -80,17 +78,4 @@ export class CreateDrinkDTO {
     description: 'The price of the drink (in cents).',
   })
   readonly price: number;
-
-  /**
-   * The identifier of the establishment to which the drink belongs.
-   * @example 1
-   */
-  @IsInt()
-  @ApiProperty({
-    type: Number,
-    example: 1,
-    description:
-      'The identifier of the establishment to which the drink belongs.',
-  })
-  readonly establishmentId: number;
 }
