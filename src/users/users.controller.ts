@@ -71,7 +71,7 @@ export class UsersController {
   @ApiOperation({ summary: 'Get all users.' })
   @ApiOkResponse({
     description: 'List of users returned successfully.',
-    type: UserResponseDTO,
+    type: [UserResponseDTO],
   })
   @ApiUnauthorizedResponse({
     description: 'Invalid access token or authentication credentials.',

@@ -16,9 +16,9 @@ export class UsersRepository {
     updatedAt: true,
   };
 
-  async create(createUserDTO: CreateUserDTO): Promise<UserResponseDTO> {
+  async create(newUserData: CreateUserDTO): Promise<UserResponseDTO> {
     return this.prisma.user.create({
-      data: createUserDTO,
+      data: newUserData,
       select: this.sanitizedUser,
     });
   }
@@ -26,7 +26,7 @@ export class UsersRepository {
   async findByEmail(
     email: string,
   ): Promise<Pick<User, 'id' | 'username' | 'password'>> {
-    return this.prisma.user.findFirst({
+    return this.prisma.user.findUnique({
       where: { email },
       select: {
         id: true,
@@ -43,7 +43,7 @@ export class UsersRepository {
   }
 
   async findOne(id: number): Promise<UserResponseDTO> {
-    return this.prisma.user.findFirst({
+    return this.prisma.user.findUnique({
       where: { id },
       select: this.sanitizedUser,
     });

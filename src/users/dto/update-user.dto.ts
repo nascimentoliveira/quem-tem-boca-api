@@ -3,6 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { CreateUserDTO } from './create-user.dto';
 import {
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsStrongPassword,
   Length,
@@ -26,8 +27,9 @@ export class UpdateUserDTO extends PartialType(CreateUserDTO) {
    * The user's name.
    * @example 'Jonh Doe'
    */
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
+  @IsNotEmpty()
   @Length(3, 32)
   @ApiProperty({
     type: String,
@@ -40,6 +42,8 @@ export class UpdateUserDTO extends PartialType(CreateUserDTO) {
    * The user's password (plaintext).
    * @example '123paS$word/'
    */
+  @IsOptional()
+  @IsString()
   @IsNotEmpty()
   @IsStrongPassword()
   @ApiProperty({
