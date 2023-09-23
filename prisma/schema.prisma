@@ -23,7 +23,7 @@ model User {
 model Establishment {
   id             Int      @id @default(autoincrement())
   name           String   @db.VarChar(255)
-  phone          String   @db.VarChar(11)
+  phone          String   @db.VarChar(13)
   address        String   @db.VarChar(255)
   opening        String   @db.VarChar(5)
   closing        String   @db.VarChar(5)
@@ -52,7 +52,7 @@ model Dish {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  establishment Establishment @relation(fields: [establishmentId], references: [id])
+  establishment Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
 
   @@map("dishes")
 }
@@ -67,7 +67,7 @@ model Drink {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  establishment Establishment @relation(fields: [establishmentId], references: [id])
+  establishment Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
 
   @@map("drinks")
 }
