@@ -31,6 +31,7 @@ export class UsersFactory {
       email: this.encryptionService.encryptEmail(props.email),
       username: props.username,
       password: this.encryptionService.encryptPassword(props.password),
+      isAdmin: false,
       createdAt,
       updatedAt,
     });

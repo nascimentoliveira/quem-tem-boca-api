@@ -1,5 +1,6 @@
 import {
   ConflictException,
+  ForbiddenException,
   HttpException,
   Injectable,
   InternalServerErrorException,
@@ -49,7 +50,11 @@ export class UsersService {
    * @throws {InternalServerErrorException} if the exception is unknown.
    */
   private throwException(error: HttpException): void {
-    const knownExceptions = [ConflictException, NotFoundException] as const;
+    const knownExceptions = [
+      ConflictException,
+      NotFoundException,
+      ForbiddenException,
+    ] as const;
 
     if (knownExceptions.some((exception) => error instanceof exception)) {
       throw error;
@@ -127,17 +132,36 @@ export class UsersService {
     }
   }
 
+  async getInternalUser(currentUserId: number): Promise<InternalUser> {
+    try {
+      const user: InternalUser =
+        await this.usersRepository.getInternalUser(currentUserId);
+      if (!user) {
+        throw new NotFoundException('Usuário não encontrado!');
+      }
+      return user;
+    } catch (error) {
+      this.throwException(error);
+    }
+  }
+
   /**
    * Find a user by their email address (hashed).
    *
    * @param emailHash The hashed email address of the user.
    * @returns User information including ID, username, and hashed password.
+   * @throws {NotFoundException} if the user is not found.
    */
   async findByEmail(
     emailHash: string,
-  ): Promise<Pick<User, 'id' | 'username' | 'password'> | null> {
+  ): Promise<Pick<User, 'id' | 'username' | 'password'>> {
     try {
-      return await this.usersRepository.findByEmail(emailHash);
+      const user: Pick<User, 'id' | 'username' | 'password'> =
+        await this.usersRepository.findByEmail(emailHash);
+      if (!user) {
+        throw new NotFoundException('Usuário não encontrado!');
+      }
+      return user;
     } catch (error) {
       this.throwException(error);
     }

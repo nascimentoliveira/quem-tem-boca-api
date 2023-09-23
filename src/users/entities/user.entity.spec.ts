@@ -8,6 +8,7 @@ describe('User', () => {
       email: faker.internet.email(),
       username: faker.internet.userName(),
       password: faker.internet.password(),
+      isAdmin: faker.datatype.boolean(),
       createdAt: faker.date.past(),
       updatedAt: faker.date.recent(),
     };

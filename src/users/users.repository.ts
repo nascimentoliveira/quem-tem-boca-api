@@ -36,6 +36,16 @@ export class UsersRepository {
     });
   }
 
+  async getInternalUser(id: number): Promise<InternalUser> {
+    return this.prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        isAdmin: true,
+      },
+    });
+  }
+
   async findAll(): Promise<UserResponseDTO[]> {
     return this.prisma.user.findMany({
       select: this.sanitizedUser,
