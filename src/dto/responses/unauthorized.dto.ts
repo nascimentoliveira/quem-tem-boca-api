@@ -24,8 +24,7 @@ export class UnauthorizedResponseDTO {
    */
   @ApiProperty({
     type: String,
-    example:
-      'Token inválido ou expirado. Por favor, faça login em sua conta novamente!',
+    example: 'Credenciais de autenticação inválidas ou ausentes.',
     description:
       'An error message indicating the reason for unauthorized access.',
   })

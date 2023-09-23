@@ -1,6 +1,5 @@
 import { AuthService } from '../auth/auth.service';
 import { UsersService } from '../users/users.service';
-import { UserResponseDTO } from '../users/dto/response-user.dto';
 import { User } from '../users/entities/user.entity';
 import {
   CanActivate,
@@ -38,7 +37,6 @@ export class AuthGuard implements CanActivate {
    * @param {ExecutionContext} context - The execution context for the route handler.
    * @returns {Promise<boolean>} A boolean indicating whether the user is authorized to access the route.
    * @throws {UnauthorizedException} Thrown when the JWT token is invalid or expired.
-   * @throws {ForbiddenException} Thrown when the "Authorization" header is missing.
    */
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
@@ -46,18 +44,19 @@ export class AuthGuard implements CanActivate {
     try {
       const { authorization } = request.headers;
       if (!authorization) {
-        response.status(HttpStatus.FORBIDDEN).json({
-          message:
-            'Acesso negado a este recurso. Campo "Authorization" não encontrado no cabeçalho.',
-          error: 'Forbidden',
-          statusCode: HttpStatus.FORBIDDEN,
+        response.status(HttpStatus.UNAUTHORIZED).json({
+          message: 'Campo "Authorization" não encontrado no cabeçalho.',
+          error: 'Unauthorized',
+          statusCode: HttpStatus.UNAUTHORIZED,
         });
         return false;
       }
       const data: Partial<User> = await this.authService.checkToken(
         authorization?.replace('Bearer ', ''),
       );
-      const user: UserResponseDTO = await this.userService.findOne(data.id);
+      const user: Partial<User> = await this.userService.getInternalUser(
+        data.id,
+      );
       request.user = user;
     } catch (error) {
       if (error instanceof UnauthorizedException) {

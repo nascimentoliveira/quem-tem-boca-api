@@ -23,8 +23,7 @@ export class ForbiddenResponseDTO {
    */
   @ApiProperty({
     type: String,
-    example:
-      'Acesso negado a este recurso. Campo "Authorization" não encontrado no cabeçalho.',
+    example: 'Você não tem permissão para acessar esse recurso.',
     description:
       'An error message indicating the reason for the forbidden access.',
   })
