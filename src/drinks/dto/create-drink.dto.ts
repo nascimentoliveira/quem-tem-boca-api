@@ -58,7 +58,6 @@ export class CreateDrinkDTO {
    */
   @IsString()
   @IsUrl()
-  @IsNotEmpty()
   @ApiProperty({
     type: String,
     example: 'https://example.com/drink.jpg',

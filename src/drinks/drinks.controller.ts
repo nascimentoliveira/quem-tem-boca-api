@@ -8,6 +8,8 @@ import { InternalServerErrorDTO } from 'src/dto/responses/internal-server-error.
 import { UnauthorizedResponseDTO } from 'src/dto/responses/unauthorized.dto';
 import { ForbiddenResponseDTO } from 'src/dto/responses/forbidden.dto';
 import { NotFoundResponseDTO } from 'src/dto/responses/notFound.dto';
+import { AuthGuard } from 'src/guards/auth.guard';
+import { Request } from 'express';
 import {
   Controller,
   Get,
@@ -16,8 +18,11 @@ import {
   Param,
   Delete,
   Put,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiBody,
   ApiCreatedResponse,
   ApiForbiddenResponse,
@@ -30,11 +35,31 @@ import {
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
 
+/**
+ * Drinks Controller
+ *
+ * This controller handles HTTP requests related to drinks, such as
+ * creating, retrieving, updating, and deleting drinks.
+ */
 @ApiTags('Drinks')
 @Controller('api/establishments/:establishmentId/drinks')
+@ApiBearerAuth()
+@UseGuards(AuthGuard)
 export class DrinksController {
+  /**
+   * Constructor for DrinksController.
+   *
+   * @param drinksService - The service responsible for handling drink-related operations.
+   */
   constructor(private readonly drinksService: DrinksService) {}
 
+  /**
+   * Register a new drink.
+   *
+   * @param establishmentId - The unique identifier of the establishment.
+   * @param newDrinkData - Data required to create a new drink.
+   * @returns The created drink.
+   */
   @ApiOperation({ summary: 'Register a new drink.' })
   @ApiBody({
     type: CreateDrinkDTO,
@@ -44,13 +69,17 @@ export class DrinksController {
     description: 'Drink successfully registered.',
     type: DrinkResponseDTO,
   })
-  @ApiUnprocessableEntityResponse({
-    description: 'Invalid or incomplete data.',
-    type: DrinkUnprocessableEntityResponseDTO,
+  @ApiUnauthorizedResponse({
+    description: 'Invalid or missing authentication credentials.',
+    type: UnauthorizedResponseDTO,
   })
   @ApiNotFoundResponse({
     description: 'Resource not found.',
     type: NotFoundResponseDTO,
+  })
+  @ApiUnprocessableEntityResponse({
+    description: 'Invalid or incomplete data.',
+    type: DrinkUnprocessableEntityResponseDTO,
   })
   @ApiInternalServerErrorResponse({
     description: 'Internal Server Error',
@@ -67,6 +96,12 @@ export class DrinksController {
     );
   }
 
+  /**
+   * Get all drinks for a specific establishment.
+   *
+   * @param establishmentId - The unique identifier of the establishment.
+   * @returns A list of drinks for the establishment.
+   */
   @ApiOperation({ summary: 'Get all drinks.' })
   @ApiOkResponse({
     description: 'List of drinks returned successfully.',
@@ -76,9 +111,9 @@ export class DrinksController {
     description: 'Invalid or missing authentication credentials.',
     type: UnauthorizedResponseDTO,
   })
-  @ApiForbiddenResponse({
-    description: 'Operation not allowed.',
-    type: ForbiddenResponseDTO,
+  @ApiNotFoundResponse({
+    description: 'Resource not found.',
+    type: NotFoundResponseDTO,
   })
   @ApiInternalServerErrorResponse({
     description: 'Internal Server Error',
@@ -89,6 +124,13 @@ export class DrinksController {
     return this.drinksService.findAll(+establishmentId);
   }
 
+  /**
+   * Get a specific drink by ID within an establishment.
+   *
+   * @param establishmentId - The unique identifier of the establishment.
+   * @param drinkId - The unique identifier of the drink.
+   * @returns The drink if found.
+   */
   @ApiOperation({ summary: 'Get a specific drink.' })
   @ApiOkResponse({
     description: 'Drink returned successfully.',
@@ -97,10 +139,6 @@ export class DrinksController {
   @ApiUnauthorizedResponse({
     description: 'Invalid or missing authentication credentials.',
     type: UnauthorizedResponseDTO,
-  })
-  @ApiForbiddenResponse({
-    description: 'Operation not allowed.',
-    type: ForbiddenResponseDTO,
   })
   @ApiNotFoundResponse({
     description: 'Resource not found.',
@@ -118,6 +156,14 @@ export class DrinksController {
     return this.drinksService.findOne(+establishmentId, +drinkId);
   }
 
+  /**
+   * Edit an existing drink within an establishment.
+   *
+   * @param establishmentId - The unique identifier of the establishment.
+   * @param drinkId - The unique identifier of the drink.
+   * @param updateDrinkData - Data required to update an existing drink.
+   * @returns The updated drink.
+   */
   @ApiOperation({ summary: 'Edit an existing drink.' })
   @ApiBody({
     type: UpdateDrinkDTO,
@@ -130,10 +176,6 @@ export class DrinksController {
   @ApiUnauthorizedResponse({
     description: 'Invalid or missing authentication credentials.',
     type: UnauthorizedResponseDTO,
-  })
-  @ApiForbiddenResponse({
-    description: 'Operation not allowed.',
-    type: ForbiddenResponseDTO,
   })
   @ApiNotFoundResponse({
     description: 'Resource not found.',
@@ -160,7 +202,15 @@ export class DrinksController {
     );
   }
 
-  @ApiOperation({ summary: 'Delete an existing drink' })
+  /**
+   * Delete an existing drink.
+   *
+   * @param establishmentId - The unique identifier of the establishment.
+   * @param drinkId - The unique identifier of the drink.
+   * @param request - The request object containing user information.
+   * @returns The deleted drink.
+   */
+  @ApiOperation({ summary: 'Delete an existing drink.' })
   @ApiOkResponse({
     description: 'Drink successfully deleted.',
     type: DrinkResponseDTO,
@@ -185,7 +235,8 @@ export class DrinksController {
   remove(
     @Param('establishmentId') establishmentId: string,
     @Param('id') drinkId: string,
+    @Req() request: Request,
   ) {
-    return this.drinksService.remove(+establishmentId, +drinkId);
+    return this.drinksService.remove(+establishmentId, +drinkId, request.user);
   }
 }

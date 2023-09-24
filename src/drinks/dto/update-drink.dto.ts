@@ -63,7 +63,6 @@ export class UpdateDrinkDTO extends PartialType(CreateDrinkDTO) {
   @IsOptional()
   @IsString()
   @IsUrl()
-  @IsNotEmpty()
   @ApiProperty({
     type: String,
     example: 'https://example.com/drink.jpg',
