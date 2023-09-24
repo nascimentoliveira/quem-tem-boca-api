@@ -47,6 +47,11 @@ import {
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
 export class EstablishmentsController {
+  /**
+   * Constructor for EstablishmentsController.
+   *
+   * @param drinksSerestablishmentsServicevice - The service responsible for handling establishment-related operations.
+   */
   constructor(private readonly establishmentsService: EstablishmentsService) {}
 
   /**

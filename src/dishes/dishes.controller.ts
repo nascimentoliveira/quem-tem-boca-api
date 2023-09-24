@@ -46,6 +46,11 @@ import {
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
 export class DishesController {
+  /**
+   * Constructor for DishesController.
+   *
+   * @param dishesService - The service responsible for handling dish-related operations.
+   */
   constructor(private readonly dishesService: DishesService) {}
 
   /**

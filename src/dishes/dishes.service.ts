@@ -16,6 +16,12 @@ import {
  */
 @Injectable()
 export class DishesService {
+  /**
+   * Constructor of the DishesService class.
+   *
+   * @param dishesRepository - The repository for managing dish data.
+   * @param establishmentsService - The service for managing establishment data.
+   */
   constructor(
     private readonly dishesRepository: DishesRepository,
     private readonly establishmentsService: EstablishmentsService,
@@ -27,7 +33,7 @@ export class DishesService {
    * @param establishmentId - The unique identifier of the establishment.
    * @param newDishData - Data required to create a new dish.
    * @returns The created dish.
-   * @throws NotFoundException if the establishment with the given ID is not found.
+   * @throws {NotFoundException} if the establishment with the given ID is not found.
    */
   async create(
     establishmentId: number,
@@ -42,7 +48,7 @@ export class DishesService {
    *
    * @param establishmentId - The unique identifier of the establishment.
    * @returns A list of dishes for the establishment.
-   * @throws NotFoundException if the establishment with the given ID is not found.
+   * @throws {NotFoundException} if the establishment with the given ID is not found.
    */
   async findAll(establishmentId: number): Promise<DishResponseDTO[]> {
     await this.establishmentsService.findOne(establishmentId);
@@ -55,7 +61,7 @@ export class DishesService {
    * @param establishmentId - The unique identifier of the establishment.
    * @param dishId - The unique identifier of the dish.
    * @returns The retrieved dish.
-   * @throws NotFoundException if the dish or establishment with the given IDs is not found.
+   * @throws {NotFoundException} if the dish or establishment with the given IDs is not found.
    */
   async findOne(
     establishmentId: number,
@@ -79,7 +85,7 @@ export class DishesService {
    * @param dishId - The unique identifier of the dish to update.
    * @param updateDishData - Data required to update the dish.
    * @returns The updated dish.
-   * @throws NotFoundException if the dish or establishment with the given IDs is not found.
+   * @throws {NotFoundException} if the dish or establishment with the given IDs is not found.
    */
   async update(
     establishmentId: number,
@@ -97,17 +103,17 @@ export class DishesService {
    * @param dishId - The unique identifier of the dish to delete.
    * @param user - The user object containing user information, including admin status.
    * @returns The deleted dish.
-   * @throws NotFoundException if the dish or establishment with the given IDs is not found.
-   * @throws ForbiddenException if the user does not have permission to delete the dish.
+   * @throws {NotFoundException} if the dish or establishment with the given IDs is not found.
+   * @throws {ForbiddenException} if the user does not have permission to delete the dish.
    */
   async remove(
     establishmentId: number,
     dishId: number,
-    user: InternalUser,
+    user: LoggedInUser,
   ): Promise<DishResponseDTO> {
     if (!user.isAdmin) {
       throw new ForbiddenException(
-        'You do not have permission to access this resource.',
+        'Você não tem permissão para acessar esse recurso.',
       );
     }
     await this.findOne(establishmentId, dishId);

@@ -17,6 +17,11 @@ import {
  */
 @Injectable()
 export class EstablishmentsService {
+  /**
+   * Constructor of the EstablishmentsService class.
+   *
+   * @param establishmentsRepository - The repository for managing establishment data.
+   */
   constructor(
     private readonly establishmentsRepository: EstablishmentsRepository,
   ) {}
@@ -47,7 +52,7 @@ export class EstablishmentsService {
    *
    * @param id The unique identifier of the establishment.
    * @returns The retrieved establishment.
-   * @throws NotFoundException if the establishment is not found.
+   * @throws {NotFoundException} if the establishment is not found.
    */
   async findOne(id: number): Promise<EstablishmentResponseDTO> {
     const establishment: EstablishmentResponseDTO =
@@ -63,7 +68,7 @@ export class EstablishmentsService {
    *
    * @param id The unique identifier of the establishment.
    * @returns The retrieved establishment with its menu.
-   * @throws NotFoundException if the establishment is not found.
+   * @throws {NotFoundException} if the establishment is not found.
    */
   async findWithMenu(id: number): Promise<EstablishmentResponseDTO> {
     const establishment: EstablishmentResponseDTO =
@@ -80,7 +85,7 @@ export class EstablishmentsService {
    * @param id The unique identifier of the establishment to update.
    * @param updateEstablishmentData The data for updating the establishment.
    * @returns The updated establishment.
-   * @throws NotFoundException if the establishment is not found.
+   * @throws {NotFoundException} if the establishment is not found.
    */
   async update(
     id: number,
@@ -99,12 +104,12 @@ export class EstablishmentsService {
    * @param id The unique identifier of the establishment to remove.
    * @param user The user performing the removal.
    * @returns The removed establishment.
-   * @throws NotFoundException if the establishment is not found.
-   * @throws ForbiddenException if the user does not have permission.
+   * @throws {NotFoundException} if the establishment is not found.
+   * @throws {ForbiddenException} if the user does not have permission.
    */
   async remove(
     id: number,
-    user: InternalUser,
+    user: LoggedInUser,
   ): Promise<EstablishmentResponseDTO> {
     if (!user.isAdmin) {
       throw new ForbiddenException(
