@@ -132,9 +132,9 @@ export class UsersService {
     }
   }
 
-  async getInternalUser(currentUserId: number): Promise<InternalUser> {
+  async getInternalUser(currentUserId: number): Promise<LoggedInUser> {
     try {
-      const user: InternalUser =
+      const user: LoggedInUser =
         await this.usersRepository.getInternalUser(currentUserId);
       if (!user) {
         throw new NotFoundException('Usuário não encontrado!');

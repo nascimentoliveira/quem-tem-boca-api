@@ -36,7 +36,7 @@ export class UsersRepository {
     });
   }
 
-  async getInternalUser(id: number): Promise<InternalUser> {
+  async getInternalUser(id: number): Promise<LoggedInUser> {
     return this.prisma.user.findUnique({
       where: { id },
       select: {
