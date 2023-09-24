@@ -106,12 +106,12 @@ export class EstablishmentsService {
     id: number,
     user: InternalUser,
   ): Promise<EstablishmentResponseDTO> {
-    await this.findOne(id);
     if (!user.isAdmin) {
       throw new ForbiddenException(
         'Você não tem permissão para acessar esse recurso.',
       );
     }
+    await this.findOne(id);
     return await this.establishmentsRepository.remove(id);
   }
 }

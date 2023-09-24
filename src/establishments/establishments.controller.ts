@@ -43,7 +43,9 @@ import {
  * retrieving, updating, and deleting establishments.
  */
 @ApiTags('Establishments')
-@Controller('establishments')
+@Controller('api/establishments')
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 export class EstablishmentsController {
   constructor(private readonly establishmentsService: EstablishmentsService) {}
 
@@ -74,8 +76,6 @@ export class EstablishmentsController {
     description: 'Internal Server Error',
     type: InternalServerErrorDTO,
   })
-  @UseGuards(AuthGuard)
-  @ApiBearerAuth()
   @Post()
   create(@Body() newEstablishmentData: CreateEstablishmentDTO) {
     return this.establishmentsService.create(
@@ -101,8 +101,6 @@ export class EstablishmentsController {
     description: 'Internal Server Error',
     type: InternalServerErrorDTO,
   })
-  @UseGuards(AuthGuard)
-  @ApiBearerAuth()
   @Get()
   findAll() {
     return this.establishmentsService.findAll();
@@ -160,8 +158,6 @@ export class EstablishmentsController {
     description: 'Internal Server Error',
     type: InternalServerErrorDTO,
   })
-  @UseGuards(AuthGuard)
-  @ApiBearerAuth()
   @Get(':id/menu')
   findWithMenu(@Param('id') id: string) {
     return this.establishmentsService.findWithMenu(+id);
@@ -199,8 +195,6 @@ export class EstablishmentsController {
     description: 'Internal Server Error',
     type: InternalServerErrorDTO,
   })
-  @UseGuards(AuthGuard)
-  @ApiBearerAuth()
   @Put(':id')
   update(
     @Param('id') id: string,
@@ -240,8 +234,6 @@ export class EstablishmentsController {
     description: 'Internal Server Error',
     type: InternalServerErrorDTO,
   })
-  @UseGuards(AuthGuard)
-  @ApiBearerAuth()
   @Delete(':id')
   remove(@Param('id') id: string, @Req() request: Request) {
     return this.establishmentsService.remove(+id, request.user);

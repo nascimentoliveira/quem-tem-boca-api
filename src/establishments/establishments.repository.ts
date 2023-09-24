@@ -13,6 +13,10 @@ import { UpdateEstablishmentDTO } from './dto/update-establishment.dto';
  */
 @Injectable()
 export class EstablishmentsRepository {
+  /**
+   * Constructor of the EstablishmentsRepository class.
+   * @param prisma - The Prisma service for database interaction.
+   */
   constructor(private readonly prisma: PrismaService) {}
 
   /**
