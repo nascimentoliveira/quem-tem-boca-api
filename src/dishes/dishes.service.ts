@@ -4,12 +4,16 @@ import { DishResponseDTO } from './dto/response-dish.dto';
 import { DishesRepository } from './dishes.repository';
 import { EstablishmentsService } from 'src/establishments/establishments.service';
 import {
-  HttpException,
+  ForbiddenException,
   Injectable,
-  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-
+/**
+ * Dishes Service
+ *
+ * This service provides methods for creating, retrieving, updating, and deleting dishes.
+ * It ensures that the operations are performed within the context of a specific establishment.
+ */
 @Injectable()
 export class DishesService {
   constructor(
@@ -17,81 +21,96 @@ export class DishesService {
     private readonly establishmentsService: EstablishmentsService,
   ) {}
 
-  private throwException(error: HttpException): void {
-    const knownExceptions = [NotFoundException] as const;
-
-    if (knownExceptions.some((exception) => error instanceof exception)) {
-      throw error;
-    }
-
-    throw new InternalServerErrorException(
-      'Ocorreu um erro interno do servidor. ' +
-        'Por favor, verifique os parâmetros ou tente novamente mais tarde.',
-    );
-  }
-
+  /**
+   * Create a new dish for a specific establishment.
+   *
+   * @param establishmentId - The unique identifier of the establishment.
+   * @param newDishData - Data required to create a new dish.
+   * @returns The created dish.
+   * @throws NotFoundException if the establishment with the given ID is not found.
+   */
   async create(
     establishmentId: number,
     newDishData: CreateDishDTO,
   ): Promise<DishResponseDTO> {
-    try {
-      await this.establishmentsService.findOne(establishmentId);
-      return await this.dishesRepository.create(establishmentId, newDishData);
-    } catch (error) {
-      this.throwException(error);
-    }
+    await this.establishmentsService.findOne(establishmentId);
+    return await this.dishesRepository.create(establishmentId, newDishData);
   }
 
+  /**
+   * Get all dishes for a specific establishment.
+   *
+   * @param establishmentId - The unique identifier of the establishment.
+   * @returns A list of dishes for the establishment.
+   * @throws NotFoundException if the establishment with the given ID is not found.
+   */
   async findAll(establishmentId: number): Promise<DishResponseDTO[]> {
-    try {
-      await this.establishmentsService.findOne(establishmentId);
-      return await this.dishesRepository.findAll(establishmentId);
-    } catch (error) {
-      this.throwException(error);
-    }
+    await this.establishmentsService.findOne(establishmentId);
+    return await this.dishesRepository.findAll(establishmentId);
   }
 
+  /**
+   * Get a specific dish by ID for a specific establishment.
+   *
+   * @param establishmentId - The unique identifier of the establishment.
+   * @param dishId - The unique identifier of the dish.
+   * @returns The retrieved dish.
+   * @throws NotFoundException if the dish or establishment with the given IDs is not found.
+   */
   async findOne(
     establishmentId: number,
     dishId: number,
   ): Promise<DishResponseDTO> {
-    try {
-      await this.establishmentsService.findOne(establishmentId);
-      const dish: DishResponseDTO = await this.dishesRepository.findOne(
-        establishmentId,
-        dishId,
-      );
-      if (!dish) {
-        throw new NotFoundException('Bebida não encontrada!');
-      }
-      return dish;
-    } catch (error) {
-      this.throwException(error);
+    await this.establishmentsService.findOne(establishmentId);
+    const dish: DishResponseDTO = await this.dishesRepository.findOne(
+      establishmentId,
+      dishId,
+    );
+    if (!dish) {
+      throw new NotFoundException('Dish not found!');
     }
+    return dish;
   }
 
+  /**
+   * Update an existing dish by ID for a specific establishment.
+   *
+   * @param establishmentId - The unique identifier of the establishment.
+   * @param dishId - The unique identifier of the dish to update.
+   * @param updateDishData - Data required to update the dish.
+   * @returns The updated dish.
+   * @throws NotFoundException if the dish or establishment with the given IDs is not found.
+   */
   async update(
     establishmentId: number,
     dishId: number,
     updateDishData: UpdateDishDTO,
   ): Promise<DishResponseDTO> {
-    try {
-      await this.findOne(establishmentId, dishId);
-      return await this.dishesRepository.update(dishId, updateDishData);
-    } catch (error) {
-      this.throwException(error);
-    }
+    await this.findOne(establishmentId, dishId);
+    return await this.dishesRepository.update(dishId, updateDishData);
   }
 
+  /**
+   * Delete an existing dish by ID for a specific establishment.
+   *
+   * @param establishmentId - The unique identifier of the establishment.
+   * @param dishId - The unique identifier of the dish to delete.
+   * @param user - The user object containing user information, including admin status.
+   * @returns The deleted dish.
+   * @throws NotFoundException if the dish or establishment with the given IDs is not found.
+   * @throws ForbiddenException if the user does not have permission to delete the dish.
+   */
   async remove(
     establishmentId: number,
     dishId: number,
+    user: InternalUser,
   ): Promise<DishResponseDTO> {
-    try {
-      await this.findOne(establishmentId, dishId);
-      return await this.dishesRepository.remove(dishId);
-    } catch (error) {
-      this.throwException(error);
+    if (!user.isAdmin) {
+      throw new ForbiddenException(
+        'You do not have permission to access this resource.',
+      );
     }
+    await this.findOne(establishmentId, dishId);
+    return await this.dishesRepository.remove(dishId);
   }
 }

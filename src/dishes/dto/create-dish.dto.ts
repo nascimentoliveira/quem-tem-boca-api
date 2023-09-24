@@ -58,7 +58,6 @@ export class CreateDishDTO {
    */
   @IsString()
   @IsUrl()
-  @IsNotEmpty()
   @ApiProperty({
     type: String,
     example: 'https://example.com/pizza.jpg',
