@@ -66,7 +66,6 @@ export class CreateEstablishmentDTO {
    * @example '12-34567-8901'
    */
   @IsString()
-  @IsNotEmpty()
   @IsPhoneNumber('BR')
   @ApiProperty({
     type: String,
@@ -185,7 +184,6 @@ export class CreateEstablishmentDTO {
    */
   @IsString()
   @IsUrl()
-  @IsNotEmpty()
   @ApiProperty({
     type: String,
     example: 'https://example.com/avatar.jpg',
@@ -199,7 +197,6 @@ export class CreateEstablishmentDTO {
    */
   @IsString()
   @IsUrl()
-  @IsNotEmpty()
   @ApiProperty({
     type: String,
     example: 'https://example.com/banner.jpg',

@@ -1,14 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { DishResponseDTO } from 'src/dishes/dto/response-dish.dto';
-import { DrinkResponseDTO } from 'src/drinks/dto/response-drink.dto';
 
 /**
  * Establishment Response DTO
  *
  * This DTO represents establishment information when retrieved as a response.
- * It includes the establishment's ID, name, phone, address, opening, closing,
- * description, minTicket, minServiceTime, maxServiceTime, avatarUrl,
- * bannerUrl, creation date, and last update date.
+ * It includes the establishment's ID, name, phone (in Brazilian format),
+ * address, opening, closing,description, minTicket, minServiceTime,
+ * maxServiceTime, avatarUrl, bannerUrl, creation date, and last update date.
  *
  * @example
  * {
@@ -26,28 +24,6 @@ import { DrinkResponseDTO } from 'src/drinks/dto/response-drink.dto';
  *   bannerUrl: 'https://example.com/banner.jpg',
  *   createdAt: '2023-09-20T12:00:00Z',
  *   updatedAt: '2023-09-20T14:30:00Z',
- *   dishes: [
- *     {
- *       id: 1,
- *       name: 'Pizza Margherita',
- *       description: 'Classic Italian pizza',
- *       imageUrl: 'https://example.com/pizza.jpg',
- *       price: 4999,
- *       createdAt: '2023-09-20T12:00:00Z',
- *       updatedAt: '2023-09-20T14:30:00Z',
- *     },
- *   ],
- *   drinks: [
- *     {
- *       id: 1,
- *       name: 'Soda',
- *       description: 'Refreshing beverage',
- *       imageUrl: 'https://example.com/soda.jpg',
- *       price: 250,
- *       createdAt: '2023-09-20T12:00:00Z',
- *       updatedAt: '2023-09-20T14:30:00Z',
- *     },
- *   ]
  * }
  */
 export class EstablishmentResponseDTO {
@@ -74,13 +50,13 @@ export class EstablishmentResponseDTO {
   readonly name: string;
 
   /**
-   * The phone number of the establishment.
+   * The phone number of the establishment (in Brazilian format).
    * @example '12-34567-8901'
    */
   @ApiProperty({
     type: String,
     example: '12-34567-8901',
-    description: 'The phone number of the establishment.',
+    description: 'The phone number of the establishment (in Brazilian format).',
   })
   readonly phone: string;
 
@@ -205,74 +181,4 @@ export class EstablishmentResponseDTO {
     description: 'The date and time when the establishment was last updated.',
   })
   readonly updatedAt: string | Date;
-
-  /**
-   * An array of dishes offered by the establishment.
-   * @example
-   * [
-   *   {
-   *     id: 1,
-   *     name: 'Pizza Margherita',
-   *     description: 'Classic Italian pizza',
-   *     imageUrl: 'https://example.com/pizza.jpg',
-   *     price: 4999,
-   *     establishmentId: 1,
-   *     createdAt: '2023-09-20T12:00:00Z',
-   *     updatedAt: '2023-09-20T14:30:00Z',
-   *   },
-   * ]
-   */
-  @ApiProperty({
-    type: [DishResponseDTO],
-    isArray: true,
-    example: [
-      {
-        id: 1,
-        name: 'Pizza Margherita',
-        description: 'Classic Italian pizza',
-        imageUrl: 'https://example.com/pizza.jpg',
-        price: 4999,
-        establishmentId: 1,
-        createdAt: '2023-09-20T12:00:00Z',
-        updatedAt: '2023-09-20T14:30:00Z',
-      },
-    ],
-    description: 'An array of dishes offered by the establishment.',
-  })
-  readonly dishes?: DishResponseDTO[];
-
-  /**
-   * An array of drinks offered by the establishment.
-   * @example
-   * [
-   *   {
-   *     id: 1,
-   *     name: 'Soda',
-   *     description: 'Refreshing beverage',
-   *     imageUrl: 'https://example.com/soda.jpg',
-   *     price: 250,
-   *     establishmentId: 1,
-   *     createdAt: '2023-09-20T12:00:00Z',
-   *     updatedAt: '2023-09-20T14:30:00Z',
-   *   },
-   * ]
-   */
-  @ApiProperty({
-    type: [DrinkResponseDTO],
-    isArray: true,
-    example: [
-      {
-        id: 1,
-        name: 'Soda',
-        description: 'Refreshing beverage',
-        imageUrl: 'https://example.com/soda.jpg',
-        price: 250,
-        establishmentId: 1,
-        createdAt: '2023-09-20T12:00:00Z',
-        updatedAt: '2023-09-20T14:30:00Z',
-      },
-    ],
-    description: 'An array of drinks offered by the establishment.',
-  })
-  readonly drinks?: DrinkResponseDTO[];
 }

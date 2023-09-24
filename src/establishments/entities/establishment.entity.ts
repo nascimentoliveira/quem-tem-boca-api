@@ -1,11 +1,12 @@
 import { Prisma } from '@prisma/client';
+
 /**
- * Establishment DTO
+ * Establishment Entity
  *
- * This DTO represents an establishment, including its unique identifier, name, phone number, address, operating hours,
- * description, minimum ticket amount, minimum service time, maximum service time, avatar URL, banner URL,
+ * This entity represents an establishment in the application. It includes properties
+ * such as the establishment's ID, name, phone, address, opening hours, description,
+ * minimum ticket amount, minimum service time, maximum service time, avatar URL, banner URL,
  * creation date, and last update date.
- *
  * @example
  * {
  *   id: 1,

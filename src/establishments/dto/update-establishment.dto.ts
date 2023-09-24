@@ -16,8 +16,9 @@ import {
  * Update Establishment DTO
  *
  * This DTO represents the data required to update an existing establishment's information.
- * It includes optional fields for the establishment's name, phone number, address, opening and closing hours,
- * description, minimum ticket amount, minimum service time, maximum service time, avatar URL, and banner URL.
+ * It includes optional fields for the establishment's name, phone number (in Brazilian format),
+ * address, opening and closing hours,description, minimum ticket amount, minimum service time,
+ * maximum service time, avatar URL, and banner URL.
  *
  * @example
  * {
@@ -58,7 +59,6 @@ export class UpdateEstablishmentDTO extends PartialType(
    */
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   @IsPhoneNumber('BR')
   @ApiProperty({
     type: String,
@@ -182,7 +182,6 @@ export class UpdateEstablishmentDTO extends PartialType(
   @IsOptional()
   @IsString()
   @IsUrl()
-  @IsNotEmpty()
   @ApiProperty({
     type: String,
     example: 'https://example.com/avatar.jpg',
@@ -198,7 +197,6 @@ export class UpdateEstablishmentDTO extends PartialType(
   @IsOptional()
   @IsString()
   @IsUrl()
-  @IsNotEmpty()
   @ApiProperty({
     type: String,
     example: 'https://example.com/banner.jpg',
