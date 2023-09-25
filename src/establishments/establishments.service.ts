@@ -7,6 +7,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { EstablishmentWithMenuResponseDTO } from './dto/response-establishmentWithMenu.dto';
 
 /**
  * Establishments Service
@@ -70,13 +71,38 @@ export class EstablishmentsService {
    * @returns The retrieved establishment with its menu.
    * @throws {NotFoundException} if the establishment is not found.
    */
-  async findWithMenu(id: number): Promise<EstablishmentResponseDTO> {
-    const establishment: EstablishmentResponseDTO =
+  async findWithMenu(id: number): Promise<EstablishmentWithMenuResponseDTO> {
+    const establishment: EstablishmentWithMenuResponseDTO =
       await this.establishmentsRepository.findWithMenu(id);
     if (!establishment) {
       throw new NotFoundException('Estabelecimento não encontrado!');
     }
     return establishment;
+  }
+
+  /**
+   * Search for establishments, dishes, and drinks by name.
+   *
+   * This function performs a search for establishments, dishes, and drinks based on a provided name.
+   * It retrieves establishments from the database and filters the results based on certain criteria.
+   *
+   * @param name - The search term for establishments, dishes, and drinks.
+   * @returns A list of establishments that match the search criteria.
+   */
+  async searchByName(
+    name: string,
+  ): Promise<EstablishmentWithMenuResponseDTO[]> {
+    const establishments: EstablishmentWithMenuResponseDTO[] =
+      await this.establishmentsRepository.searchByName(name);
+    const filteredEstablishments: EstablishmentWithMenuResponseDTO[] =
+      establishments.filter((establishment) => {
+        return (
+          establishment.name.toLowerCase().includes(name.toLowerCase()) ||
+          establishment.dishes.length > 0 ||
+          establishment.drinks.length > 0
+        );
+      });
+    return filteredEstablishments;
   }
 
   /**

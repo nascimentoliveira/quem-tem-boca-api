@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { EstablishmentResponseDTO } from './dto/response-establishment.dto';
 import { CreateEstablishmentDTO } from './dto/create-establishment.dto';
 import { UpdateEstablishmentDTO } from './dto/update-establishment.dto';
+import { EstablishmentWithMenuResponseDTO } from './dto/response-establishmentWithMenu.dto';
 
 /**
  * Establishments Repository
@@ -60,12 +61,42 @@ export class EstablishmentsRepository {
    * @param id The unique identifier of the establishment.
    * @returns The retrieved establishment with its menu.
    */
-  async findWithMenu(id: number): Promise<EstablishmentResponseDTO> {
+  async findWithMenu(id: number): Promise<EstablishmentWithMenuResponseDTO> {
     return this.prisma.establishment.findUnique({
       where: { id },
       include: {
         dishes: true,
         drinks: true,
+      },
+    });
+  }
+
+  /**
+   * Search for establishments, dishes, and drinks by name.
+   *
+   * This function performs a search for establishments, dishes, and drinks based on a provided name.
+   *
+   * @param name - The search term for establishments, dishes, and drinks.
+   * @returns A list of establishments that match the search criteria.
+   */
+  async searchByName(
+    name: string,
+  ): Promise<EstablishmentWithMenuResponseDTO[]> {
+    return await this.prisma.establishment.findMany({
+      where: {
+        OR: [
+          { name: { contains: name, mode: 'insensitive' } },
+          {
+            dishes: { some: { name: { contains: name, mode: 'insensitive' } } },
+          },
+          {
+            drinks: { some: { name: { contains: name, mode: 'insensitive' } } },
+          },
+        ],
+      },
+      include: {
+        dishes: { where: { name: { contains: name, mode: 'insensitive' } } },
+        drinks: { where: { name: { contains: name, mode: 'insensitive' } } },
       },
     });
   }
