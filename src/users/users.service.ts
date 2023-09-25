@@ -1,22 +1,23 @@
-import {
-  ConflictException,
-  ForbiddenException,
-  HttpException,
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { UsersRepository } from './users.repository';
 import { UserResponseDTO } from './dto/response-user.dto';
 import { EncryptionService } from '../encryption/encryption.service';
 import { User } from '@prisma/client';
+import {
+  ConflictException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
 /**
  * Users Service
  *
- * This service provides functionality for managing user data, including creation, retrieval, updating, and removal of user records.
+ * The Users Service provides business logic and acts as an intermediary between
+ * the Users Controller and the Users Repository. It handles user-related operations
+ * such as user creation, retrieval, updating, and deletion. This service also
+ * includes encryption and validation checks for user data.
  */
 @Injectable()
 export class UsersService {
@@ -32,10 +33,10 @@ export class UsersService {
   ) {}
 
   /**
-   * Check if the email is unique in the database.
+   * Check if an email address is unique.
    *
-   * @param emailHash The hashed email to check for uniqueness.
-   * @returns A boolean indicating whether the email is unique.
+   * @param emailHash - The hashed email address to check for uniqueness.
+   * @returns True if the email address is unique; otherwise, false.
    */
   private async isEmailUnique(emailHash: string): Promise<boolean> {
     const user: Pick<User, 'id' | 'username' | 'password'> =
@@ -44,168 +45,129 @@ export class UsersService {
   }
 
   /**
-   * Throw an exception, handling known exceptions and falling back to InternalServerErrorException for unknown exceptions.
+   * Create a new user profile.
    *
-   * @param error The exception to handle.
-   * @throws {InternalServerErrorException} if the exception is unknown.
-   */
-  private throwException(error: HttpException): void {
-    const knownExceptions = [
-      ConflictException,
-      NotFoundException,
-      ForbiddenException,
-    ] as const;
-
-    if (knownExceptions.some((exception) => error instanceof exception)) {
-      throw error;
-    }
-
-    throw new InternalServerErrorException(
-      'Ocorreu um erro interno do servidor. ' +
-        'Por favor, verifique os parâmetros ou tente novamente mais tarde.',
-    );
-  }
-
-  /**
-   * Create a new user with the provided data.
-   *
-   * @param newUserData The data required to create a new user.
-   * @returns The newly created user.
-   * @throws {ConflictException} if the email is not unique.
+   * @param newUserData - The data required to create a new user.
+   * @returns The newly created user profile.
+   * @throws {ConflictException} if the email address is not unique.
    */
   async create(newUserData: CreateUserDTO): Promise<UserResponseDTO> {
-    try {
-      const encryptedEmail: string = this.encryptionService.encryptEmail(
-        newUserData.email,
+    const encryptedEmail: string = this.encryptionService.encryptEmail(
+      newUserData.email,
+    );
+    const isEmailUnique: boolean = await this.isEmailUnique(encryptedEmail);
+    if (!isEmailUnique) {
+      throw new ConflictException(
+        'Já existe um usuário com o e-mail fornecido.',
       );
-      const isEmailUnique: boolean = await this.isEmailUnique(encryptedEmail);
-      if (!isEmailUnique) {
-        throw new ConflictException(
-          'Já existe um usuário com o e-mail fornecido.',
-        );
-      }
-      const encryptedPassword: string = this.encryptionService.encryptPassword(
-        newUserData.password,
-      );
-
-      const user = await this.usersRepository.create({
-        email: encryptedEmail,
-        username: newUserData.username,
-        password: encryptedPassword,
-      });
-
-      return user;
-    } catch (error) {
-      this.throwException(error);
     }
+    const encryptedPassword: string = this.encryptionService.encryptPassword(
+      newUserData.password,
+    );
+    const user = await this.usersRepository.create({
+      email: encryptedEmail,
+      username: newUserData.username,
+      password: encryptedPassword,
+    });
+    return user;
   }
 
   /**
-   * Retrieve all users from the database.
+   * Retrieve a list of all users.
    *
-   * @returns A list of all users.
+   * @returns A list of user profiles.
    */
   async findAll(): Promise<UserResponseDTO[]> {
-    try {
-      return await this.usersRepository.findAll();
-    } catch (error) {
-      this.throwException(error);
-    }
+    return await this.usersRepository.findAll();
   }
 
   /**
-   * Retrieve a user by their ID.
+   * Find a user by their unique identifier.
    *
-   * @param id The ID of the user to retrieve.
-   * @returns The user with the specified ID.
+   * @param id - The unique identifier of the user to retrieve.
+   * @returns The user profile.
    * @throws {NotFoundException} if the user is not found.
    */
   async findOne(id: number): Promise<UserResponseDTO> {
-    try {
-      const user: UserResponseDTO = await this.usersRepository.findOne(id);
-      if (!user) {
-        throw new NotFoundException('Usuário não encontrado!');
-      }
-      return user;
-    } catch (error) {
-      this.throwException(error);
+    const user: UserResponseDTO = await this.usersRepository.findOne(id);
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado!');
     }
-  }
-
-  async getInternalUser(currentUserId: number): Promise<LoggedInUser> {
-    try {
-      const user: LoggedInUser =
-        await this.usersRepository.getInternalUser(currentUserId);
-      if (!user) {
-        throw new NotFoundException('Usuário não encontrado!');
-      }
-      return user;
-    } catch (error) {
-      this.throwException(error);
-    }
+    return user;
   }
 
   /**
-   * Find a user by their email address (hashed).
+   * Find a user by their email address.
    *
-   * @param emailHash The hashed email address of the user.
-   * @returns User information including ID, username, and hashed password.
+   * @param emailHash - The hashed email address of the user to retrieve.
+   * @returns The user's ID, username, and password hash.
    * @throws {NotFoundException} if the user is not found.
    */
   async findByEmail(
     emailHash: string,
   ): Promise<Pick<User, 'id' | 'username' | 'password'>> {
-    try {
-      const user: Pick<User, 'id' | 'username' | 'password'> =
-        await this.usersRepository.findByEmail(emailHash);
-      if (!user) {
-        throw new NotFoundException('Usuário não encontrado!');
-      }
-      return user;
-    } catch (error) {
-      this.throwException(error);
+    const user: Pick<User, 'id' | 'username' | 'password'> =
+      await this.usersRepository.findByEmail(emailHash);
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado!');
     }
+    return user;
   }
 
   /**
-   * Update a user's information.
+   * Get information about a logged-in user.
    *
-   * @param id The ID of the user to update.
-   * @param updateUserData The data to update for the user.
-   * @returns The updated user information.
+   * @param currentUserId - The unique identifier of the logged-in user.
+   * @returns Information about the logged-in user.
+   * @throws {NotFoundException} if the user is not found.
+   */
+  async getLoggedInUser(currentUserId: number): Promise<LoggedInUser> {
+    const user: LoggedInUser =
+      await this.usersRepository.getLoggedInUser(currentUserId);
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado!');
+    }
+    return user;
+  }
+
+  /**
+   * Update an existing user profile.
+   *
+   * @param id - The unique identifier of the user to update.
+   * @param updateUserData - The data to update in the user profile.
+   * @returns The updated user profile.
    * @throws {NotFoundException} if the user is not found.
    */
   async update(
     id: number,
     updateUserData: UpdateUserDTO,
   ): Promise<UserResponseDTO> {
-    try {
-      await this.findOne(id);
-      const encryptedPassword: string = this.encryptionService.encryptPassword(
-        updateUserData.password,
-      );
-      return await this.usersRepository.update(id, {
-        username: updateUserData.username,
-        password: encryptedPassword,
-      });
-    } catch (error) {
-      this.throwException(error);
-    }
+    await this.findOne(id);
+    const encryptedPassword: string = this.encryptionService.encryptPassword(
+      updateUserData.password,
+    );
+    return await this.usersRepository.update(id, {
+      username: updateUserData.username,
+      password: encryptedPassword,
+    });
   }
 
   /**
-   * Remove a user by their ID.
+   * Delete an existing user profile.
    *
-   * @param id The ID of the user to remove.
-   * @returns The removed user information.
+   * @param id - The unique identifier of the user to delete.
+   * @param user - The logged-in user object for permission checks.
+   * @returns The deleted user profile.
+   * @throws {ForbiddenException} if the logged-in user does not have permission.
    * @throws {NotFoundException} if the user is not found.
    */
-  async remove(id: number): Promise<UserResponseDTO> {
-    try {
-      await this.findOne(id);
-      return await this.usersRepository.remove(id);
-    } catch (error) {
-      this.throwException(error);
+  async remove(id: number, user: LoggedInUser): Promise<UserResponseDTO> {
+    if (!user.isAdmin) {
+      throw new ForbiddenException(
+        'Você não tem permissão para acessar esse recurso.',
+      );
     }
+    await this.findOne(id);
+    return await this.usersRepository.remove(id);
   }
 }

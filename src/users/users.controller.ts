@@ -10,6 +10,7 @@ import { UserUnprocessableEntityResponseDTO } from './dto/unprocessable-user.dto
 import { ForbiddenResponseDTO } from '../dto/responses/forbidden.dto';
 import { NotFoundResponseDTO } from 'src/dto/responses/notFound.dto';
 import { AuthGuard } from '../guards/auth.guard';
+import { Request } from 'express';
 import {
   Controller,
   Get,
@@ -19,6 +20,7 @@ import {
   Delete,
   Put,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -35,11 +37,29 @@ import {
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
 
+/**
+ * Users Controller
+ *
+ * The Users Controller handles HTTP requests related to user management, such as
+ * user registration, retrieval, updating, and deletion. It interacts with the
+ * Users Service to perform these operations.
+ */
 @ApiTags('Users')
 @Controller('api/users')
 export class UsersController {
+  /**
+   * Constructor for UsersController.
+   *
+   * @param usersService - The service responsible for handling user-related operations.
+   */
   constructor(private readonly usersService: UsersService) {}
 
+  /**
+   * Register a new user.
+   *
+   * @param newUserData - Data required to create a new user account.
+   * @returns The newly registered user.
+   */
   @ApiOperation({ summary: 'Register a new user.' })
   @ApiBody({
     type: CreateUserDTO,
@@ -66,6 +86,11 @@ export class UsersController {
     return this.usersService.create(plainToClass(CreateUserDTO, newUserData));
   }
 
+  /**
+   * Get a list of all users.
+   *
+   * @returns A list of user profiles.
+   */
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get all users.' })
@@ -77,10 +102,6 @@ export class UsersController {
     description: 'Invalid or missing authentication credentials.',
     type: UnauthorizedResponseDTO,
   })
-  @ApiForbiddenResponse({
-    description: 'Operation not allowed.',
-    type: ForbiddenResponseDTO,
-  })
   @ApiInternalServerErrorResponse({
     description: 'Internal Server Error',
     type: InternalServerErrorDTO,
@@ -90,6 +111,12 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  /**
+   * Get a specific user by their ID.
+   *
+   * @param id - The unique identifier of the user to retrieve.
+   * @returns The user profile.
+   */
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get a specific user.' })
@@ -100,10 +127,6 @@ export class UsersController {
   @ApiUnauthorizedResponse({
     description: 'Invalid or missing authentication credentials.',
     type: UnauthorizedResponseDTO,
-  })
-  @ApiForbiddenResponse({
-    description: 'Operation not allowed.',
-    type: ForbiddenResponseDTO,
   })
   @ApiNotFoundResponse({
     description: 'Resource not found.',
@@ -118,6 +141,13 @@ export class UsersController {
     return this.usersService.findOne(+id);
   }
 
+  /**
+   * Edit an existing user's profile.
+   *
+   * @param id - The unique identifier of the user to update.
+   * @param updateUserData - Data required to update an existing user account.
+   * @returns The updated user profile.
+   */
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Edit an existing user.' })
@@ -132,10 +162,6 @@ export class UsersController {
   @ApiUnauthorizedResponse({
     description: 'Invalid or missing authentication credentials.',
     type: UnauthorizedResponseDTO,
-  })
-  @ApiForbiddenResponse({
-    description: 'Operation not allowed.',
-    type: ForbiddenResponseDTO,
   })
   @ApiNotFoundResponse({
     description: 'Resource not found.',
@@ -157,6 +183,13 @@ export class UsersController {
     );
   }
 
+  /**
+   * Delete an existing user's profile.
+   *
+   * @param id - The unique identifier of the user to delete.
+   * @param request - The HTTP request object containing user information.
+   * @returns The deleted user profile.
+   */
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete an existing user' })
@@ -181,7 +214,7 @@ export class UsersController {
     type: InternalServerErrorDTO,
   })
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  remove(@Param('id') id: string, @Req() request: Request) {
+    return this.usersService.remove(+id, request.user);
   }
 }

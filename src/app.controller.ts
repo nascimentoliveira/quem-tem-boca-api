@@ -9,11 +9,27 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
+/**
+ * App Controller
+ *
+ * The App Controller handles API status checks. It provides an endpoint to check
+ * the health and status of the API.
+ */
 @ApiTags('Health')
 @Controller('api')
 export class AppController {
+  /**
+   * Constructor for the AppController.
+   *
+   * @param appService An instance of the AppService for handling API health checks.
+   */
   constructor(private readonly appService: AppService) {}
 
+  /**
+   * Check API status.
+   *
+   * @returns A response indicating the status of the API.
+   */
   @ApiOperation({ summary: 'Check API status' })
   @ApiResponse({
     status: 200,

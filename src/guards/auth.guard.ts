@@ -54,7 +54,7 @@ export class AuthGuard implements CanActivate {
       const data: Partial<User> = await this.authService.checkToken(
         authorization?.replace('Bearer ', ''),
       );
-      const user: Partial<User> = await this.userService.getInternalUser(
+      const user: Partial<User> = await this.userService.getLoggedInUser(
         data.id,
       );
       request.user = user;
