@@ -128,14 +128,12 @@ A documentação completa dos endpoints, incluindo detalhes sobre como usar cada
 
 Recomendamos consultar a documentação para obter informações abrangentes sobre os endpoints e aproveitar ao máximo as funcionalidades oferecidas. A seguir estão os endpoints disponíveis nesta API.
 
+### Checar status
 ```
 GET /api/health
 ```
 
-```
-POST /api/auth
-```
-
+### Usuários
 ```
 POST /api/users
 ```
@@ -154,6 +152,87 @@ POST /api/users
 
 ```
 *🔐 DELETE /api/users/{id}
+```
+
+### Autenticação
+```
+POST /api/auth
+```
+
+```
+POST /api/auth/recovery
+```
+
+### Estabelecimentos
+```
+*🔐 POST /api/establishments
+```
+
+```
+*🔐 GET /api/establishments
+```
+
+```
+*🔐 GET /api/establishments/{id}
+```
+
+```
+*🔐 GET /api/establishments/{id}/menu
+```
+
+```
+*🔐 PUT /api/establishments/{id}
+```
+
+```
+*🔐 DELETE /api/establishments/{id}
+```
+
+### Bebidas
+```
+*🔐 POST /api/establishments/{id}/drinks
+```
+
+```
+*🔐 GET /api/establishments/{id}/drinks
+```
+
+```
+*🔐 GET /api/establishments/{id}/drinks/{id}
+```
+
+```
+*🔐 PUT /api/establishments/{id}/drinks/{id}
+```
+
+```
+*🔐 DELETE /api/establishments/{id}/drinks/{id}
+```
+
+### Pratos
+```
+*🔐 POST /api/establishments/{id}/dishes
+```
+
+```
+*🔐 GET /api/establishments/{id}/dishes
+```
+
+```
+*🔐 GET /api/establishments/{id}/dishes/{id}
+```
+
+```
+*🔐 PUT /api/establishments/{id}/dishes/{id}
+```
+
+```
+*🔐 DELETE /api/establishments/{id}/dishes/{id}
+```
+
+### Busca
+```
+*🔐 GET /api/search
 ```
 
 *🔐 *Rotas autenticadas com token JWT. Necessário logar na aplicação!*
