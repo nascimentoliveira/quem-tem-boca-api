@@ -17,8 +17,8 @@ import { SearchModule } from './search/search.module';
   imports: [
     PrismaModule,
     EncryptionModule,
-    UsersModule,
     AuthModule,
+    UsersModule,
     EstablishmentsModule,
     DishesModule,
     DrinksModule,
