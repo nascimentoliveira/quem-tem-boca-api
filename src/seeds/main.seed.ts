@@ -1,4 +1,7 @@
 import { PrismaService } from '../prisma/prisma.service';
+import { seedDrinks } from './dink.seed';
+import { seedDishes } from './dish.seed';
+import { seedEstablishments } from './establishment.seed';
 import { seedUsers } from './user.seed';
 
 /**
@@ -10,6 +13,9 @@ import { seedUsers } from './user.seed';
 async function main() {
   const prisma = new PrismaService();
   await seedUsers(prisma);
+  await seedEstablishments(prisma);
+  await seedDishes(prisma);
+  await seedDrinks(prisma);
   await prisma.$disconnect();
 }
 
