@@ -94,7 +94,7 @@ export async function seedDrinks(prisma: PrismaService) {
   const establishments = await prisma.establishment.findMany();
   for (const establishment of establishments) {
     for (const drinkData of drinksData) {
-      await prisma.dish.create({
+      await prisma.drink.create({
         data: {
           ...drinkData,
           ...generateDrinkData(),

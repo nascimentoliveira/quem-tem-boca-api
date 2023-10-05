@@ -37,7 +37,7 @@ export async function seedDishes(prisma: PrismaService) {
     },
     {
       name: 'Macarronada',
-      description: 'Espaguete, molho à bolonhesa',
+      description: 'Espaguete à bolonhesa',
       imageUrl:
         'https://www.sabornamesa.com.br/media/k2/items/cache/b5b56b2ae93d3dc958cf0c21c9383b18_XL.jpg',
     },
@@ -72,7 +72,7 @@ export async function seedDishes(prisma: PrismaService) {
     },
     {
       name: 'Macarronada',
-      description: 'Espaguete, molho à bolonhesa',
+      description: 'Espaguete à bolonhesa',
       imageUrl:
         'https://www.sabornamesa.com.br/media/k2/items/cache/b5b56b2ae93d3dc958cf0c21c9383b18_XL.jpg',
     },
