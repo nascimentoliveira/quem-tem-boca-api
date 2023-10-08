@@ -11,7 +11,6 @@ import { DishesModule } from './dishes/dishes.module';
 import { DrinksModule } from './drinks/drinks.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ExceptionInterceptor } from './interceptors/exception.interceptor';
-import { SearchModule } from './search/search.module';
 
 @Module({
   imports: [
@@ -22,7 +21,6 @@ import { SearchModule } from './search/search.module';
     EstablishmentsModule,
     DishesModule,
     DrinksModule,
-    SearchModule,
   ],
   controllers: [AppController],
   providers: [

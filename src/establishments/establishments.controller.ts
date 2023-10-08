@@ -21,6 +21,7 @@ import {
   Put,
   UseGuards,
   Req,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -31,10 +32,12 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiQuery,
   ApiTags,
   ApiUnauthorizedResponse,
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
+import { SearchDto } from './dto/search.dto';
 
 /**
  * Establishments Controller
@@ -109,6 +112,42 @@ export class EstablishmentsController {
   @Get()
   findAll() {
     return this.establishmentsService.findAll();
+  }
+
+  /**
+   * Search for establishments, dishes, and drinks by name.
+   *
+   * This endpoint allows users to search for establishments, dishes, and drinks based on a provided name.
+   *
+   * @param search - The search criteria, including the name to search for.
+   * @returns  A list of establishments that match the search criteria.
+   *
+   * @throws {UnauthorizedException} Throws an exception if the user's authentication credentials are invalid or missing.
+   * @throws {InternalServerErrorException} Throws an exception if an internal server error occurs.
+   */
+  @ApiOperation({
+    summary: 'Search for establishments, dishes, and drinks by name',
+  })
+  @ApiQuery({
+    name: 'name',
+    required: true,
+    description: 'Search term for names of establishments, dishes and drinks',
+  })
+  @ApiOkResponse({
+    description: 'Search results returned successfully.',
+    type: EstablishmentWithMenuResponseDTO,
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Invalid or missing authentication credentials.',
+    type: UnauthorizedResponseDTO,
+  })
+  @ApiInternalServerErrorResponse({
+    description: 'Internal Server Error',
+    type: InternalServerErrorDTO,
+  })
+  @Get('search')
+  searchByName(@Query() search: SearchDto) {
+    return this.establishmentsService.searchByName(search);
   }
 
   /**

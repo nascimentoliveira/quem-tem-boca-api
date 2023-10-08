@@ -8,6 +8,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { EstablishmentWithMenuResponseDTO } from './dto/response-establishmentWithMenu.dto';
+import { SearchDto } from './dto/search.dto';
 
 /**
  * Establishments Service
@@ -86,12 +87,13 @@ export class EstablishmentsService {
    * This function performs a search for establishments, dishes, and drinks based on a provided name.
    * It retrieves establishments from the database and filters the results based on certain criteria.
    *
-   * @param name - The search term for establishments, dishes, and drinks.
-   * @returns A list of establishments that match the search criteria.
+   * @param search - The search criteria including the name to search for.
+   * @returns  A list of establishments that match the search criteria.
    */
   async searchByName(
-    name: string,
+    search: SearchDto,
   ): Promise<EstablishmentWithMenuResponseDTO[]> {
+    const { name } = search;
     const establishments: EstablishmentWithMenuResponseDTO[] =
       await this.establishmentsRepository.searchByName(name);
     const filteredEstablishments: EstablishmentWithMenuResponseDTO[] =
