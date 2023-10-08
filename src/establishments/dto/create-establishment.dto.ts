@@ -9,6 +9,7 @@ import {
   IsUrl,
   Validate,
   Matches,
+  MinLength,
 } from 'class-validator';
 
 /**
@@ -53,7 +54,7 @@ export class CreateEstablishmentDTO {
    * @example 'Restaurant XYZ'
    */
   @IsString()
-  @IsNotEmpty()
+  @MinLength(3)
   @ApiProperty({
     type: String,
     example: 'Restaurant XYZ',

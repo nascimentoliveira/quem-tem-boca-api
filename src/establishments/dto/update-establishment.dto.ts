@@ -10,6 +10,7 @@ import {
   IsUrl,
   IsOptional,
   Matches,
+  MinLength,
 } from 'class-validator';
 
 /**
@@ -44,7 +45,7 @@ export class UpdateEstablishmentDTO extends PartialType(
    */
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
+  @MinLength(3)
   @ApiProperty({
     type: String,
     example: 'Restaurant XYZ',

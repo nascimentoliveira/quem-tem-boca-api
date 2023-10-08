@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsString, MinLength } from 'class-validator';
 
 /**
  * Search DTO (Data Transfer Object)
@@ -15,7 +15,7 @@ export class SearchDto {
    * @memberof SearchDto
    */
   @IsString()
-  @IsNotEmpty()
+  @MinLength(3)
   @ApiProperty({
     type: String,
     example: 'Pizza',
