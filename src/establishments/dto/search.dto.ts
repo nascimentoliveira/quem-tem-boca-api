@@ -19,7 +19,8 @@ export class SearchDto {
   @ApiProperty({
     type: String,
     example: 'Pizza',
-    description: 'Search term for names of establishments, dishes, and drinks',
+    description:
+      'Search term for names of establishments, name or description of dishes, and drinks',
   })
-  readonly name: string;
+  readonly query: string;
 }

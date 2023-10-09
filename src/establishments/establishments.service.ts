@@ -93,13 +93,13 @@ export class EstablishmentsService {
   async searchByName(
     search: SearchDto,
   ): Promise<EstablishmentWithMenuResponseDTO[]> {
-    const { name } = search;
+    const { query } = search;
     const establishments: EstablishmentWithMenuResponseDTO[] =
-      await this.establishmentsRepository.searchByName(name);
+      await this.establishmentsRepository.search(query);
     const filteredEstablishments: EstablishmentWithMenuResponseDTO[] =
       establishments.filter((establishment) => {
         return (
-          establishment.name.toLowerCase().includes(name.toLowerCase()) ||
+          establishment.name.toLowerCase().includes(query.toLowerCase()) ||
           establishment.dishes.length > 0 ||
           establishment.drinks.length > 0
         );

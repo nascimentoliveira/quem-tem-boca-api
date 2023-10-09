@@ -72,31 +72,57 @@ export class EstablishmentsRepository {
   }
 
   /**
-   * Search for establishments, dishes, and drinks by name.
+   * Search for establishments by name, dishes and drinks by name or description.
    *
-   * This function performs a search for establishments, dishes, and drinks based on a provided name.
+   * This function performs a search for establishments, dishes, and drinks based on a provided query.
    *
-   * @param name - The search term for establishments, dishes, and drinks.
+   * @param query - The search term for establishments, dishes, and drinks.
    * @returns A list of establishments that match the search criteria.
    */
-  async searchByName(
-    name: string,
-  ): Promise<EstablishmentWithMenuResponseDTO[]> {
+  async search(query: string): Promise<EstablishmentWithMenuResponseDTO[]> {
     return await this.prisma.establishment.findMany({
       where: {
         OR: [
-          { name: { contains: name, mode: 'insensitive' } },
+          { name: { contains: query, mode: 'insensitive' } },
           {
-            dishes: { some: { name: { contains: name, mode: 'insensitive' } } },
+            dishes: {
+              some: {
+                OR: [
+                  { name: { contains: query, mode: 'insensitive' } },
+                  { description: { contains: query, mode: 'insensitive' } },
+                ],
+              },
+            },
           },
           {
-            drinks: { some: { name: { contains: name, mode: 'insensitive' } } },
+            drinks: {
+              some: {
+                OR: [
+                  { name: { contains: query, mode: 'insensitive' } },
+                  { description: { contains: query, mode: 'insensitive' } },
+                ],
+              },
+            },
           },
         ],
       },
       include: {
-        dishes: { where: { name: { contains: name, mode: 'insensitive' } } },
-        drinks: { where: { name: { contains: name, mode: 'insensitive' } } },
+        dishes: {
+          where: {
+            OR: [
+              { name: { contains: query, mode: 'insensitive' } },
+              { description: { contains: query, mode: 'insensitive' } },
+            ],
+          },
+        },
+        drinks: {
+          where: {
+            OR: [
+              { name: { contains: query, mode: 'insensitive' } },
+              { description: { contains: query, mode: 'insensitive' } },
+            ],
+          },
+        },
       },
     });
   }

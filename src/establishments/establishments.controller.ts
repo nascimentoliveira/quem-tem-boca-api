@@ -115,23 +115,24 @@ export class EstablishmentsController {
   }
 
   /**
-   * Search for establishments, dishes, and drinks by name.
+   * Search for establishmentsby name, dishes and drinks by name or description.
    *
-   * This endpoint allows users to search for establishments, dishes, and drinks based on a provided name.
+   * This endpoint allows users to search for establishments, dishes, and drinks based on a provided query.
    *
-   * @param search - The search criteria, including the name to search for.
+   * @param search - The search criteria, including the query to search for.
    * @returns  A list of establishments that match the search criteria.
    *
    * @throws {UnauthorizedException} Throws an exception if the user's authentication credentials are invalid or missing.
    * @throws {InternalServerErrorException} Throws an exception if an internal server error occurs.
    */
   @ApiOperation({
-    summary: 'Search for establishments, dishes, and drinks by name',
+    summary:
+      'Search for establishments by name, dishes and drinks by name or description',
   })
   @ApiQuery({
-    name: 'name',
+    name: 'query',
     required: true,
-    description: 'Search term for names of establishments, dishes and drinks',
+    description: 'Search term for establishments, dishes and drinks',
   })
   @ApiOkResponse({
     description: 'Search results returned successfully.',
