@@ -82,12 +82,12 @@ export class EstablishmentsService {
   }
 
   /**
-   * Search for establishments, dishes, and drinks by name.
+   * Search for establishments by name, dishes and drinks by name or description.
    *
-   * This function performs a search for establishments, dishes, and drinks based on a provided name.
+   * This function performs a search for establishments, dishes, and drinks based on a provided query.
    * It retrieves establishments from the database and filters the results based on certain criteria.
    *
-   * @param search - The search criteria including the name to search for.
+   * @param search - The search criteria including the query to search for.
    * @returns  A list of establishments that match the search criteria.
    */
   async searchByName(

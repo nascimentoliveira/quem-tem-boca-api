@@ -4,7 +4,7 @@ import { IsString, MinLength } from 'class-validator';
 /**
  * Search DTO (Data Transfer Object)
  *
- * This DTO is used to validate and transfer search parameters for searching establishments, dishes, and drinks by name.
+ * This DTO is used to validate and transfer search parameters for searching establishments, dishes, and drinks.
  */
 export class SearchDto {
   /**
