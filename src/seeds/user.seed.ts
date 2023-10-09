@@ -27,11 +27,6 @@ export async function seedUsers(prisma: PrismaService) {
       username: 'Jonh Doe',
       password: encryptionService.encryptPassword('password123'),
     },
-    {
-      email: encryptionService.encryptEmail('fred@graodireto.com.br'),
-      username: 'Fred',
-      password: encryptionService.encryptPassword('123Fred'),
-    },
   ];
 
   for (const userData of usersData) {
