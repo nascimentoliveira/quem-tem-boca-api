@@ -1,4 +1,4 @@
-![created date - quem-tem-boca-api](https://img.shields.io/date/1689562800?color=007ec6&label=created&style=flat-square)
+![created date - quem-tem-boca-api](https://img.shields.io/date/1692327600?color=007ec6&label=created&style=flat-square)
 ![license - quem-tem-boca-api](https://img.shields.io/github/license/nascimentoliveira/quem-tem-boca-api?color=007ec6&style=flat-square)
 ![last commit - quem-tem-boca-api](https://img.shields.io/github/last-commit/nascimentoliveira/quem-tem-boca-api?color=007ec6&style=flat-square)
 ![repo size - quem-tem-boca-api](https://img.shields.io/github/repo-size/nascimentoliveira/quem-tem-boca-api?color=007ec6&style=flat-square)
@@ -7,9 +7,7 @@
 ![stars - quem-tem-boca-api](https://img.shields.io/github/stars/nascimentoliveira/quem-tem-boca-api?color=007ec6&style=flat-square)
 ![forks - quem-tem-boca-api](https://img.shields.io/github/forks/nascimentoliveira/quem-tem-boca-api?color=007ec6&style=flat-square)
 
-#  🚧👷🏻 API (Back-end) da Aplicação Quem Tem Boca  👷🏻🚧
-
-> 🚧👷🏻 Quem Tem Boca está sendo desenvolvido! Algumas funcionalidades podem não estar disponíveis.
+#  API (Back-end) da Aplicação Quem Tem Boca
 
 Aqui você encontrará informações sobre a estrutura da API, como executá-la localmente, configurar as dependências e realizar as requisições corretamente.
 
@@ -25,22 +23,17 @@ Aqui você encontrará informações sobre a estrutura da API, como executá-la 
 A API da aplicação Quem Tem Boca foi desenvolvido utilizando as seguintes tecnologias:
 
 - Linguagem de Programação:
-
   - [TypeScript](https://www.typescriptlang.org/): Linguagem de programação de código aberto que estende a sintaxe do JavaScript, fornecendo tipagem estática opcional e outros recursos para melhorar o desenvolvimento.
-  
-- Framework:
 
-  - [Nest.JS](https://nestjs.com/): Um framework para construção de aplicações web escaláveis e eficientes, baseado em Node.js e TypeScript, que oferece uma abordagem modular e orientada por componentes para o desenvolvimento de back-ends robustos.
-  
 - Back-end
-
+  - [Nest.JS](https://nestjs.com/): Um framework para construção de aplicações web escaláveis e eficientes, baseado em Node.js e TypeScript, que oferece uma abordagem modular e orientada por componentes para o desenvolvimento de back-ends robustos.
   - [Node.js](https://nodejs.org/en/about): Plataforma de desenvolvimento JavaScript assíncrona baseada no motor V8 do Chrome.
   - [Dotenv](https://www.npmjs.com/package/dotenv): Pacote para carregar variáveis de ambiente a partir de um arquivo .env.
-   - [Bcrypt](https://www.npmjs.com/package/bcrypt): Biblioteca para criptografia de senhas.
-   - [class-validator](https://github.com/typestack/class-validator): Biblioteca para validação de dados.
-   - [JWT](https://www.npmjs.com/package/jsonwebtoken): Biblioteca para geração e validação de tokens de autenticação.
-   - [Jest](https://jestjs.io/): Framework de teste JavaScript com foco na simplicidade e na experiência do desenvolvedor. Utilizado para testes unitários e de integração.
-  
+  - [Bcrypt](https://www.npmjs.com/package/bcrypt): Biblioteca para criptografia de senhas.
+  - [class-validator](https://github.com/typestack/class-validator): Biblioteca para validação de dados.
+  - [JWT](https://www.npmjs.com/package/jsonwebtoken): Biblioteca para geração e validação de tokens de autenticação.
+  - [Jest](https://jestjs.io/): Framework de teste JavaScript com foco na simplicidade e na experiência do desenvolvedor. Utilizado para testes unitários e de integração.
+
 - Banco de Dados:
 
   - [PostgreSQL](https://www.postgresql.org/about/): Sistema de gerenciamento de banco de dados relacional, utilizado para armazenar e persistir os dados da aplicação.
@@ -105,24 +98,23 @@ Siga as etapas abaixo para instalar, configurar e executar a API localmente:
 Após a configuração, você pode iniciar a API executando o seguinte comando:
 
 ```bash
-$ npm run start:dev
+$ npm run start
 ```
 
 A API será iniciada e estará pronta para receber requisições e será iniciada na porta especificada no arquivo `.env` (por padrão, é a porta 5000).
 
 ```bash
-  http://localhost:5000/api/
+  http://localhost:5000/
 ```
 
 ou
 
 ```bash
-  http://localhost:<porta_especificada>/api
+  http://localhost:<porta_especificada>
 ```
 
 ## Endpoints
 
-> 🚧👷🏻 Quem Tem Boca está sendo desenvolvido! Novos endpoints estarão disponíveis em breve.
 
 A documentação completa dos endpoints, incluindo detalhes sobre como usar cada rota, parâmetros e exemplos de resposta, está disponível na [documentação interativa](https://quem-tem-boca-api.onrender.com/api/documentation) da API.
 
@@ -131,6 +123,11 @@ Recomendamos consultar a documentação para obter informações abrangentes sob
 ### Checar status
 ```
 GET /api/health
+```
+
+### Documentação
+```
+GET /api/documentation
 ```
 
 ### Usuários
@@ -170,6 +167,10 @@ POST /api/auth/recovery
 
 ```
 *🔐 GET /api/establishments
+```
+
+```
+*🔐 GET /api/establishments/search
 ```
 
 ```
@@ -230,11 +231,6 @@ POST /api/auth/recovery
 *🔐 DELETE /api/establishments/{id}/dishes/{id}
 ```
 
-### Busca
-```
-*🔐 GET /api/search
-```
-
 *🔐 *Rotas autenticadas com token JWT. Necessário logar na aplicação!*
 
 ## Contribuição
@@ -266,3 +262,5 @@ Se te ajudei de alguma forma, ficarei feliz em saber. Se possível:
 Este projeto é licenciado sob a licença [MIT](https://choosealicense.com/licenses/mit/). Consulte o arquivo LICENSE para obter mais informações.
 
 Disponibilizado por [Thiago Oliveira](https://www.linkedin.com/in/nascimentoliveira/).
+
+Desenvolvido no Brasil 🇧🇷.
